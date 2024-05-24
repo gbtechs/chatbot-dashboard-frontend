@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header {
+  position: fixed;
+  width: 100%;
+  border: 1px solid rgba(221, 226, 228, 1)
+}
+
+.bg-gray {
+  background-color: #F7F9FB
+}
+
+.bg-orange {
+  background: rgba(251, 133, 0, 1);
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 30px;
+  color: rgba(2, 48, 71, 1);
+  padding: 5px 0;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+h5 {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  color: rgba(3, 81, 119, 1);
+}
+
+.input-text {
+  border: 1px solid rgba(221, 226, 228, 1);
+  background: rgba(255, 255, 255, 1);
+}
+
+.input-text:focus {
+  border: 1px solid rgba(2, 48, 71, 1);
+  outline-width: 0;
+}
+
+.input-text:hover {
+  border: 1px solid rgba(2, 48, 71, 1)
+}
+
+.label-1 {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  color: rgba(2, 48, 71, 1);
+}
+
+.border-1 {
+  border: 1px solid rgba(221, 226, 228, 1)
+}
+
+.radius-1 {
+  border-radius: 30px
+}
+
+.text-1 {
+  color: rgba(2, 48, 71, 1);
+}
