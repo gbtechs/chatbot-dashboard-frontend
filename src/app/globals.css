@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body { height: 100% }
+
 .header {
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   border: 1px solid rgba(221, 226, 228, 1)
 }
@@ -49,6 +53,12 @@ h5 {
 
 .input-text:hover {
   border: 1px solid rgba(2, 48, 71, 1)
+}
+
+.notification {
+  top: 85px;
+  right: 5px;
+  min-width: 250px;
 }
 
 .label-1 {
