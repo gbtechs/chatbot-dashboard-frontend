@@ -4,31 +4,26 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useNotification } from "@/contexts/NotificationContext";
+import useLoginRequest from "@/hooks/useLogin";
 
 export default function LoginPage() {
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { notify } = useNotification();
+  const { login, loading, error } = useLoginRequest();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    notify("Login successful!", "success");
-    return;
 
     const formData = new FormData(event.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
 
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const email = formData.get("email")?.toString();
+    const password = formData.get("password")?.toString();
 
-    if (response.ok) {
+    const data = await login(email, password);
+    if (data) {
+      console.log("Login successful:", data);
       router.push("/");
-    } else {
-      // Handle errors
     }
   }
 
@@ -53,7 +48,7 @@ export default function LoginPage() {
                 type="email"
                 name="email"
                 placeholder="Email"
-                //   required
+                required
               />
             </div>
             <div className="mt-4 relative">
@@ -63,7 +58,7 @@ export default function LoginPage() {
                 type={passwordVisible ? "text" : "password"}
                 name="password"
                 placeholder="Password"
-                //   required
+                required
               />
               <div
                 className="absolute top-[42px] right-[5px] pr-3 flex items-center cursor-pointer text-sm leading-5"
