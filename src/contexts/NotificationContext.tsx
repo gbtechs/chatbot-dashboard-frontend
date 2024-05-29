@@ -17,7 +17,7 @@ interface Notification {
 }
 
 interface NotificationContextProps {
-  notify: (message: string, type: NotificationType) => void;
+  notify: (message: any, type: NotificationType) => void;
 }
 
 const NotificationContext = createContext<NotificationContextProps | undefined>(

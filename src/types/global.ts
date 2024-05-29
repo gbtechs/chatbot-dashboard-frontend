@@ -7,6 +7,12 @@ export type DataItem = {
   [key: string]: string | number | boolean | null | undefined;
 };
 
+export interface DecodedToken {
+  exp: number;
+  // Add any other claims you expect in your token
+  userId: string;
+}
+
 export interface ErrorResponse {
   message: string[] | string;
   errorCode?: string;

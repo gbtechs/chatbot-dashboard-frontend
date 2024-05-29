@@ -1,34 +1,29 @@
-import { postReq } from "@/api/utils";
+"use client";
+
+import { useAuth } from "@/contexts/AuthContext";
 import { useNotification } from "@/contexts/NotificationContext";
-import { AxiosResponse } from "axios";
-import { useState } from "react";
+import useApiRequest from "./useApiRequest";
 
 const useLoginRequest = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { makeRequest, loading, error } = useApiRequest();
+  const { loginUser } = useAuth();
   const { notify } = useNotification();
 
   const login = async (
     email: string | undefined,
     password: string | undefined
   ) => {
-    try {
-      setLoading(true);
-      setError(null);
+    const data = await makeRequest<any>("/login", "POST", {
+      email,
+      password,
+    });
 
-      const response: AxiosResponse = await postReq("/login", {
-        email,
-        password,
-      });
-
+    if (data) {
+      loginUser(data.access_token);
       notify("Login Successful", "success");
-      return response.data;
-    } catch (err: any) {
-      notify(err, "error");
-      setError(err);
-    } finally {
-      setLoading(false);
     }
+
+    return data;
   };
 
   return { login, loading, error };

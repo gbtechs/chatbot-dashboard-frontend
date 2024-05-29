@@ -3,13 +3,11 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import { useNotification } from "@/contexts/NotificationContext";
 import useLoginRequest from "@/hooks/useLogin";
 
 export default function LoginPage() {
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { notify } = useNotification();
   const { login, loading, error } = useLoginRequest();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {

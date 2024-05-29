@@ -1,7 +1,14 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import withAuth from "@/components/hoc/withAuth";
+import React from "react";
+
+const Home: React.FC = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24"></main>
+    <main className="flex flex-col items-center justify-between h-full p-24">
+      <div>dashboard</div>
+    </main>
   );
-}
+};
+
+export default withAuth(Home);
