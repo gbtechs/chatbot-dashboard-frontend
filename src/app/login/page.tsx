@@ -4,8 +4,11 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import useLoginRequest from "@/hooks/useLogin";
+import useRedirectAuthenticated from "@/hooks/useRedirectAuthenticated";
 
 export default function LoginPage() {
+  useRedirectAuthenticated(); // TODO: Replace by server side props
+
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { login, loading, error } = useLoginRequest();

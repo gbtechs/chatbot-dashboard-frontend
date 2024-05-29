@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { DecodedToken, User, UserRole } from "@/types";
 import { jwtDecode } from "jwt-decode";
+import { validateToken } from "@/utils";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -48,18 +49,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     }
   }, []);
-
-  const validateToken = (token: string): boolean => {
-    try {
-      const decoded: DecodedToken = jwtDecode(token);
-      if (decoded.exp * 1000 < Date.now()) {
-        return false; // Token is expired
-      }
-      return true;
-    } catch (error) {
-      return false;
-    }
-  };
 
   const loginUser = (token: string) => {
     localStorage.setItem("token", token);
