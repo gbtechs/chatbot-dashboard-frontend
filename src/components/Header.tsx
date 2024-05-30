@@ -7,7 +7,7 @@ export const Header: React.FC = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="flex justify-between items-center h-[80px] bg-white header p-4">
+    <header className="flex justify-between items-center h-[80px] bg-white header p-4">
       <div className="flex items-center">
         <img
           className="h-[40px]"
@@ -21,6 +21,6 @@ export const Header: React.FC = () => {
           <button onClick={() => signOut()}>Log out</button>
         </div>
       )}
-    </div>
+    </header>
   );
 };

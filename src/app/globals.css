@@ -9,11 +9,12 @@ html, body { height: 100% }
   top: 0;
   left: 0;
   width: 100%;
-  border: 1px solid rgba(221, 226, 228, 1)
+  border: 1px solid rgba(221, 226, 228, 1);
+  z-index: 1;
 }
 
 .bg-gray {
-  background-color: #F7F9FB
+  background-color: rgb(247, 249, 251)
 }
 
 .bg-orange {
@@ -41,6 +42,13 @@ h5 {
   color: rgba(3, 81, 119, 1);
 }
 
+.text-standard {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  color: rgba(2, 48, 71, 1);
+}
+
 .input-text {
   border: 1px solid rgba(221, 226, 228, 1);
   background: rgba(255, 255, 255, 1);
@@ -61,6 +69,11 @@ h5 {
   min-width: 250px;
 }
 
+li.active h5, svg {
+  color: rgba(3, 81, 119, 1) !important;
+  font-weight: 500 !important;
+}
+
 .label-1 {
   font-size: 14px;
   font-weight: 500;
@@ -74,8 +87,4 @@ h5 {
 
 .radius-1 {
   border-radius: 30px
-}
-
-.text-1 {
-  color: rgba(2, 48, 71, 1);
 }

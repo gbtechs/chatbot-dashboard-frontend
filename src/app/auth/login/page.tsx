@@ -40,7 +40,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex justify-center items-center h-full bg-gray">
+    <div className="flex justify-center items-center h-full w-full bg-gray">
       <div className="flex flex-col max-w-[480px] bg-white border-1 radius-1 p-10">
         <div>
           <h2>Log in to your account</h2>
