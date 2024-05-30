@@ -3,15 +3,17 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
-import useLoginRequest from "@/hooks/useLogin";
-import useRedirectAuthenticated from "@/hooks/useRedirectAuthenticated";
+// import useLoginRequest from "@/hooks/useLogin";
+// import useRedirectAuthenticated from "@/hooks/useRedirectAuthenticated";
+import { signIn } from "next-auth/react";
+import { useNotification } from "@/contexts/NotificationContext";
 
 export default function LoginPage() {
-  useRedirectAuthenticated(); // TODO: Replace by server side props
+  // useRedirectAuthenticated(); // TODO: Replace by server side props
+  const { notify } = useNotification();
 
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { login, loading, error } = useLoginRequest();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -21,10 +23,15 @@ export default function LoginPage() {
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
 
-    const data = await login(email, password);
-    if (data) {
-      console.log("Login successful:", data);
-      router.push("/");
+    const data = await signIn("credentials", {
+      username: email,
+      password: password,
+      redirect: true,
+      callbackUrl: "/",
+    });
+
+    if (!data) {
+      // notify("Login failed!", "error");
     }
   }
 

@@ -3,7 +3,7 @@ import "./globals.css";
 import { Poppins } from "next/font/google";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { Header } from "@/components/Header";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/contexts/AuthProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,15 +22,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("rerendered layout");
+
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <NotificationProvider>
-          <AuthProvider>
+        <AuthProvider>
+          <NotificationProvider>
             <Header />
             <div className="h-full pt-[80px]">{children}</div>
-          </AuthProvider>
-        </NotificationProvider>
+          </NotificationProvider>
+        </AuthProvider>
       </body>
     </html>
   );

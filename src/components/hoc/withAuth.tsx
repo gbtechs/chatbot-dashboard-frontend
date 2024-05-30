@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/contexts/AuthProvider";
 import { DecodedToken } from "@/types";
 
 const withAuth = <P extends object>(

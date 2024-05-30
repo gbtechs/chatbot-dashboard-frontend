@@ -1,13 +1,10 @@
 "use client";
 
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { signOut, useSession } from "next-auth/react";
 
-interface Props {
-  // chatBotId: Number;
-}
-
-export const Header: React.FC<Props> = () => {
-  const baseURL = "http://165.227.154.88";
+export const Header: React.FC = () => {
+  const { data: session } = useSession();
 
   return (
     <div className="flex justify-between items-center h-[80px] bg-white header p-4">
@@ -18,9 +15,12 @@ export const Header: React.FC<Props> = () => {
           alt="logo"
         ></img>
       </div>
-      <div className="">
-        <UserCircleIcon className="h-[30px] w-[30px]"></UserCircleIcon>
-      </div>
+      {session?.user && (
+        <div className="">
+          <UserCircleIcon className="h-[30px] w-[30px]"></UserCircleIcon>
+          <button onClick={() => signOut()}>Log out</button>
+        </div>
+      )}
     </div>
   );
 };

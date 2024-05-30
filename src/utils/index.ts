@@ -12,3 +12,9 @@ export const validateToken = (token: string): boolean => {
     return false;
   }
 };
+
+export const GetAccessToken = () => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("token");
+  }
+};
