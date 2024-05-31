@@ -30,23 +30,24 @@ export const Sidebar: React.FC = () => {
   return (
     <aside className="sidebar w-64 border-1 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in p-4">
       <div className="sidebar-header flex items-center justify-center">
-        <div className="flex flex-col w-full font-medium">
+        <div className="flex flex-col w-full font-primary">
           <span>Chatbot name</span>
           <input
             className="w-full rounded-full input-text px-4 py-2 mt-2"
             type="text"
+            readOnly
             value={"Artifika"}
           />
         </div>
       </div>
-      <div className="sidebar-content text-standard mt-4">
+      <div className="sidebar-content font-secondary mt-4">
         <ul className="flex flex-col w-full">
           {navItems.map((item) => {
             const Icon = item.icon;
             return (
               <li
                 key={item.href}
-                className={`mt-2 rounded-full hover:bg-gray-100 hover:text-gray-700 ${
+                className={`mt-2 rounded-full hover:bg-gray-100 ${
                   pathname === item.href ? "active bg-gray" : ""
                 }`}
               >

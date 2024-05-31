@@ -14,7 +14,10 @@ html, body { height: 100% }
 }
 
 .bg-gray {
-  background-color: rgb(247, 249, 251)
+  background-color: rgb(247, 249, 251);
+}
+main {
+  background-color: rgb(247, 249, 251);
 }
 
 .bg-orange {
@@ -42,11 +45,18 @@ h5 {
   color: rgba(3, 81, 119, 1);
 }
 
-.text-standard {
+.font-primary {
   font-size: 14px;
-  font-weight: 400;
   line-height: 21px;
+  font-weight: 500;
   color: rgba(2, 48, 71, 1);
+}
+
+.font-secondary {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  color: rgba(3, 81, 119, 1);
 }
 
 .input-text {
@@ -69,9 +79,9 @@ h5 {
   min-width: 250px;
 }
 
-li.active h5, svg {
-  color: rgba(3, 81, 119, 1) !important;
-  font-weight: 500 !important;
+li.active h5, li.active svg {
+  color: rgba(2, 48, 71, 1);
+  font-weight: 500;
 }
 
 .label-1 {
