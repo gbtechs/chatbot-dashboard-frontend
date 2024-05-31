@@ -10,11 +10,13 @@ export default function Home() {
               <h2 className="color-blue mt-2 pb-0">1890.92</h2>
             </Card>
           </div>
+
           <div className="">
             <Card title="Average time of conversation">
               <h2 className="color-blue mt-2 pb-0">1890.92</h2>
             </Card>
           </div>
+
           <div className="">
             <Card title="New Leads">
               <h2 className="color-blue mt-2 pb-0">1890.92</h2>

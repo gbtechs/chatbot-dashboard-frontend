@@ -1,7 +1,7 @@
 "use client";
 
 interface Props {
-  title: string;
+  title?: string;
   desc?: string;
   children: React.ReactNode;
 }
