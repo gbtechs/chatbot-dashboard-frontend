@@ -1,5 +1,6 @@
 "use client";
 
+import { SessionType } from "@/types";
 import {
   ChartBarSquareIcon,
   ChatBubbleLeftRightIcon,
@@ -8,10 +9,12 @@ import {
   StarIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export const Sidebar: React.FC = () => {
+  const { data: session } = useSession() as SessionType;
   const pathname = usePathname();
 
   const navItems = [
@@ -36,7 +39,7 @@ export const Sidebar: React.FC = () => {
             className="w-full rounded-full input-text px-4 py-2 mt-2"
             type="text"
             readOnly
-            value={"Artifika"}
+            value={session?.user?.client.company_name || ""}
           />
         </div>
       </div>

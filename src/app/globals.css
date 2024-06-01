@@ -17,6 +17,9 @@ html, body { height: 100% }
   background-color: rgb(247, 249, 251);
   /* background-color: rgb(231, 231, 231); */
 }
+.bg-gray-30 {
+  background-color: rgba(179, 193, 200, 1);
+}
 main {
   background-color: rgb(247, 249, 251);
 }
@@ -57,6 +60,13 @@ h5 {
   color: rgba(2, 48, 71, 1);
 }
 
+.font-primary-1 {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 400;
+  color: rgba(2, 48, 71, 1);
+}
+
 .font-secondary {
   font-size: 12px;
   line-height: 18px;
@@ -78,6 +88,16 @@ h5 {
   border: 1px solid rgba(2, 48, 71, 1)
 }
 
+.msg-bubble-left {
+  min-height: 60px;
+  border-radius: 30px 30px 30px 0px;
+}
+
+.msg-bubble-right {
+  min-height: 60px;
+  border-radius: 30px 30px 0px 30px;
+}
+
 .notification {
   top: 85px;
   right: 5px;
@@ -96,6 +116,10 @@ li.active h5, li.active svg {
   color: rgba(2, 48, 71, 1);
 }
 
+.h-main {
+  height: calc(100vh - 80px);
+}
+
 .border-1 {
   border: 1px solid rgba(221, 226, 228, 1)
 }
@@ -109,4 +133,14 @@ li.active h5, li.active svg {
 
 .radius-t-1 {
   border-radius: 30px 30px 0 0;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  scrollbar-width: none;
 }
