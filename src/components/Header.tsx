@@ -1,5 +1,6 @@
 "use client";
 
+import { SessionType } from "@/types";
 import {
   ArrowRightStartOnRectangleIcon,
   QuestionMarkCircleIcon,
@@ -13,7 +14,7 @@ import { useEffect, useRef, useState } from "react";
 export const Header: React.FC = () => {
   const router = useRouter();
   const path = usePathname();
-  const { data: session } = useSession();
+  const { data: session } = useSession() as SessionType;
   const [showProfileBox, setShowProfileBox] = useState<boolean>(false);
   const profileBoxRef = useRef<HTMLDivElement>(null);
   console.log("session: ", session);
@@ -56,7 +57,7 @@ export const Header: React.FC = () => {
             >
               <div className="flex item-center border-b label-1 w-full py-2 px-3">
                 <UserIcon className="h-[20px] w-[20px] mr-2"></UserIcon>
-                <span>{session?.user?.name}</span>
+                <span>{session?.user?.client?.contact_name}</span>
               </div>
               <div
                 className="flex item-center rounded-full cursor-pointer label-1 hover:bg-gray-100 py-1 px-2 m-1"
