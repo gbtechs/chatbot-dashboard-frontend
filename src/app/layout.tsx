@@ -36,7 +36,7 @@ export default async function RootLayout({
             <div className="flex flex-row min-h-full pt-[80px]">
               {session?.user && <Sidebar />}
 
-              <main className="main flex flex-col flex-grow -ml-64 md:ml-0 transition-all duration-150 ease-in">
+              <main className="main flex flex-col flex-grow bg-gray -ml-64 md:ml-0 transition-all duration-150 ease-in">
                 {children}
               </main>
             </div>
