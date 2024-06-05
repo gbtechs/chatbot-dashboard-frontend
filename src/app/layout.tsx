@@ -7,6 +7,7 @@ import { AuthProvider } from "@/contexts/AuthProvider";
 import { Sidebar } from "@/components/Sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
+import { MainLayout } from "@/components/MainLayout";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -33,13 +34,7 @@ export default async function RootLayout({
         <AuthProvider>
           <NotificationProvider>
             <Header />
-            <div className="flex flex-row min-h-full pt-[80px]">
-              {session?.user && <Sidebar />}
-
-              <main className="main flex flex-col flex-grow bg-gray -ml-64 md:ml-0 transition-all duration-150 ease-in">
-                {children}
-              </main>
-            </div>
+            <MainLayout>{children}</MainLayout>
           </NotificationProvider>
         </AuthProvider>
       </body>

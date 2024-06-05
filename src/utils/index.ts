@@ -52,6 +52,76 @@ export const formatDate = (dateString: string): string => {
   return formattedDate;
 };
 
+export const formatchartDate = (dateString: string) => {
+  const date = new Date(dateString);
+
+  // Define month names
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  // Get the month and day from the date object
+  const month = monthNames[date.getMonth()];
+  const day = date.getDate();
+
+  return `${month} ${day}`;
+};
+
+export const formatChartData = (data: any[], color: string) => {
+  const chartData = {
+    labels: [],
+    datasets: [
+      {
+        label: "Conversations",
+        data: [],
+        borderColor: "#219EBC",
+        borderWidth: 2,
+        pointRadius: 0,
+        lineTension: 0.5,
+      },
+    ],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+    },
+  };
+
+  const formattedData = JSON.parse(JSON.stringify(chartData));
+
+  data.forEach((obj: any) => {
+    const [key, value] = Object.entries(obj)[0];
+    if (key.length === 10) {
+      formattedData.labels.push(formatchartDate(key));
+    } else {
+      formattedData.labels.push(formatHour(parseInt(key)));
+    }
+    formattedData.datasets[0].data.push(value);
+  });
+
+  formattedData.datasets[0].borderColor = color;
+
+  return formattedData;
+};
+
+export const formatHour = (hour: number) => {
+  if (hour < 0 || hour > 23) {
+    throw new Error("Hour must be between 0 and 23");
+  }
+  const formattedHour = String(hour).padStart(2, "0");
+  return `${formattedHour}:00`;
+};
+
 export const linkifyString = (text: string) => {
   if (!text) return text;
 

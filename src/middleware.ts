@@ -7,6 +7,7 @@ export const config = {
     "/leads",
     "/feedbacks",
     "/sources",
+    "/sources/:path*",
     "/settings",
     "/support",
   ],
