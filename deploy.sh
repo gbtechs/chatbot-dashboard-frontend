@@ -14,6 +14,6 @@ docker rm chatbot-dashboard-frontend-app-container || true    # Ignore error if 
 
 # Run Docker container with updated image
 echo "Running Docker container..."
-docker run -d -p 3000:3000 --name chatbot-dashboard-frontend-app-container chatbot-dashboard-frontend-app
+docker run -d -p 3000:3000 --env-file .env.production --name chatbot-dashboard-frontend-app-container chatbot-dashboard-frontend-app
 
 echo "Deployment completed successfully."
