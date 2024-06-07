@@ -3,9 +3,6 @@
 echo "Updating main branch..."
 git pull origin main
 
-# Expose port 3001 to the outside world
-EXPOSE 3000
-
 # Build Docker image
 echo "Building Docker image..."
 docker build -t chatbot-dashboard-frontend-app .
