@@ -97,7 +97,7 @@ export default function Home() {
       </div>
 
       <div className="relative mt-4">
-        <div className="absolute top-2 right-3">
+        <div className="absolute top-4 right-3">
           <Dropdown
             options={timeOptions}
             onSelect={(option) => fetchChartData1(option.value)}
