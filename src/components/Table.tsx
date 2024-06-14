@@ -99,8 +99,12 @@ export const Table: React.FC<Props> = ({
                 className="font-primary px-4 py-2 cursor-pointer"
                 onClick={() => sortableColumns.includes(col) && handleSort(col)}
               >
-                <div className="flex items-center">
-                  {col.charAt(0).toUpperCase() + col.slice(1)}
+                <div
+                  className={`flex items-center${
+                    !showCheckbox && index === 0 && " pl-4"
+                  }`}
+                >
+                  {col.charAt(0).toUpperCase() + col.slice(1).replace("_", " ")}
                   {sortableColumns.includes(col) && (
                     <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
                   )}
@@ -133,7 +137,11 @@ export const Table: React.FC<Props> = ({
               )}
               {columns.map((col, colIndex) => (
                 <td key={colIndex} className="p-4">
-                  <h5>{item[col]}</h5>
+                  <h5
+                    className={`${!showCheckbox && colIndex === 0 && "pl-4"}`}
+                  >
+                    {item[col]}
+                  </h5>
                 </td>
               ))}
               {actionsCol && (
