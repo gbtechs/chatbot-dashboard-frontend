@@ -61,7 +61,9 @@ export const Conversation: React.FC<Props> = ({ id }) => {
                     <div className="relative max-w-[500px] bg-white msg-bubble-left font-primary-1 px-4 pt-4 pb-6">
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: linkifyString(message.ai.message),
+                          __html: linkifyString(
+                            message.ai.message.split("@@SPLIT@@")[0]
+                          ),
                         }}
                       ></span>
                       <span className="absolute bottom-1 right-4 font-secondary">
@@ -70,6 +72,23 @@ export const Conversation: React.FC<Props> = ({ id }) => {
                     </div>
                   </div>
                 </div>
+                {message.ai.message
+                  .split("@@SPLIT@@")
+                  .slice(1)
+                  .map((msg: string, index: number, array: string[]) => {
+                    let last = index === array.length - 1;
+                    return (
+                      <div
+                        key={index}
+                        className={`max-w-[338px] bg-white msg-bubble-left p-4 ml-[30px] mb-2 ${
+                          last ? "bubble-last" : "bubble-mid"
+                        }`}
+                        dangerouslySetInnerHTML={{
+                          __html: linkifyString(msg),
+                        }}
+                      ></div>
+                    );
+                  })}
               </div>
             );
           })}
