@@ -80,7 +80,7 @@ export const Conversation: React.FC<Props> = ({ id }) => {
                     return (
                       <div
                         key={index}
-                        className={`max-w-[338px] bg-white msg-bubble-left p-4 ml-[30px] mb-2 ${
+                        className={`max-w-[500px] bg-white msg-bubble-left font-primary-1 p-4 ml-[30px] mb-2 ${
                           last ? "bubble-last" : "bubble-mid"
                         }`}
                         dangerouslySetInnerHTML={{
