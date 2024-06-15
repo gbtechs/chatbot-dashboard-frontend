@@ -13,7 +13,7 @@ import {
 import useApiRequest from "@/hooks/useApiRequest";
 import { useEffect, useState } from "react";
 import { Dropdown } from "@/components/Dropdown";
-import { formatChartData } from "@/utils";
+import { formatChartData, formatSeconds } from "@/utils";
 
 // Register ChartJS components using ChartJS.register
 ChartJS.register(
@@ -81,7 +81,9 @@ export default function Home() {
           <div className="">
             <Card title="Average time of conversation">
               <h2 className="color-blue mt-2 pb-0">
-                {stats?.average_conversation_time || 0}
+                {stats?.average_conversation_time
+                  ? formatSeconds(stats.average_conversation_time)
+                  : 0}
               </h2>
             </Card>
           </div>
