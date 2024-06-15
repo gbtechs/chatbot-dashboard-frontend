@@ -4,6 +4,7 @@ import {
   EllipsisHorizontalIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline"; // Double arrow icon
+import { formatDate } from "@/utils";
 
 interface Props {
   data: any[];
@@ -73,6 +74,10 @@ export const Table: React.FC<Props> = ({
     return filteredData;
   }, [filteredData, sortConfig]);
 
+  const isValidDate = (dateString: string) => {
+    return !isNaN(Date.parse(dateString));
+  };
+
   return (
     <div className="relative overflow-x-auto border-1 radius-t-1">
       <table className="w-full text-left">
@@ -135,15 +140,21 @@ export const Table: React.FC<Props> = ({
                   </div>
                 </td>
               )}
-              {columns.map((col, colIndex) => (
-                <td key={colIndex} className="p-4">
-                  <h5
-                    className={`${!showCheckbox && colIndex === 0 && "pl-4"}`}
-                  >
-                    {item[col]}
-                  </h5>
-                </td>
-              ))}
+              {columns.map((col, colIndex) => {
+                const value = item[col];
+                const formattedValue = isValidDate(value)
+                  ? formatDate(value)
+                  : value;
+                return (
+                  <td key={colIndex} className="p-4">
+                    <h5
+                      className={`${!showCheckbox && colIndex === 0 && "pl-4"}`}
+                    >
+                      {formattedValue}
+                    </h5>
+                  </td>
+                );
+              })}
               {actionsCol && (
                 <td className="p-4 text-center">
                   {actionsCol.includes("edit") && (
