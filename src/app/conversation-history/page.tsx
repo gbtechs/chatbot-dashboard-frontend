@@ -22,7 +22,7 @@ export default function ConversationHistory() {
     );
     console.log(data);
     setConverSations(data.data);
-    // setConverSations([...data.data, ...data.data]);
+    setSelectedConvo(data.data[0].id);
   };
 
   const onConversationClick = (id: string) => {
