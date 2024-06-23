@@ -56,6 +56,13 @@ export default function Sources() {
     },
   ];
   const columns = ["resource", "title", "size", "tokens", "last trained"];
+  const colMap = {
+    resource: "Resource",
+    title: "Title",
+    size: "Size",
+    tokens: "Tokens",
+    "last trained": "Last trained",
+  };
   const sortableColumns = ["resource", "title", "size", "tokens"];
 
   useEffect(() => {
@@ -100,6 +107,7 @@ export default function Sources() {
           <Table
             data={sources}
             columns={columns}
+            colMap={colMap}
             search={search}
             showCheckbox={true}
             actionsCol={["delete"]}
