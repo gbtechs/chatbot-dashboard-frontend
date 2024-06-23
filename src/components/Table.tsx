@@ -9,6 +9,7 @@ import { formatDate } from "@/utils";
 interface Props {
   data: any[];
   columns: string[];
+  colMap: any;
   search?: string;
   showCheckbox?: boolean;
   actionsCol?: string[];
@@ -20,6 +21,7 @@ interface Props {
 export const Table: React.FC<Props> = ({
   data,
   columns,
+  colMap,
   search,
   showCheckbox,
   actionsCol,
@@ -109,7 +111,7 @@ export const Table: React.FC<Props> = ({
                     !showCheckbox && index === 0 && " pl-4"
                   }`}
                 >
-                  {col.charAt(0).toUpperCase() + col.slice(1).replace("_", " ")}
+                  {colMap[col]}
                   {sortableColumns.includes(col) && (
                     <ArrowsUpDownIcon className="ml-2 h-4 w-4" />
                   )}

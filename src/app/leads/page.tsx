@@ -8,7 +8,13 @@ import { useEffect, useState } from "react";
 export default function ConversationHistory() {
   const { loading, error, makeRequest } = useApiRequest();
   const [leads, setLeads] = useState([]);
-  const columns = ["name", "email", "created_at"];
+  const columns = ["name", "email", "phone", "created_at"];
+  const colMap = {
+    name: "User Name",
+    email: "Email",
+    phone: "Phone number",
+    created_at: "Time",
+  };
   const sortableColumns: string[] = [];
 
   useEffect(() => {
@@ -16,7 +22,7 @@ export default function ConversationHistory() {
   }, []);
 
   const fetchLeads = async () => {
-    const data: any = await makeRequest("/leads", "GET");
+    const data: any = await makeRequest(`/leads?page=${1}&size=${50}`, "GET");
     setLeads(data.data);
   };
 
@@ -40,6 +46,7 @@ export default function ConversationHistory() {
             data={leads}
             columns={columns}
             sortableColumns={sortableColumns}
+            colMap={colMap}
           />
         </>
       )}
