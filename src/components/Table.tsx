@@ -76,8 +76,11 @@ export const Table: React.FC<Props> = ({
     return filteredData;
   }, [filteredData, sortConfig]);
 
-  const isValidDate = (dateString: string) => {
-    return !isNaN(Date.parse(dateString));
+  const isValidDate = (value: any) => {
+    if (!isNaN(value)) {
+      return false; // coz it return a valid date even for 14483
+    }
+    return !isNaN(Date.parse(value));
   };
 
   return (

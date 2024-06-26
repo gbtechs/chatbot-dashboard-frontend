@@ -136,6 +136,17 @@ export const formatSeconds = (seconds: number) => {
   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
 };
 
+export const formatFileSize = (bytes: number): string => {
+  const sizeInKB = bytes / 1024;
+  const sizeInMB = sizeInKB / 1024;
+
+  if (sizeInMB >= 1) {
+    return `${sizeInMB.toFixed(1)} MB`;
+  } else {
+    return `${sizeInKB.toFixed(1)} KB`;
+  }
+};
+
 export const linkifyString = (text: string) => {
   if (!text) return text;
 

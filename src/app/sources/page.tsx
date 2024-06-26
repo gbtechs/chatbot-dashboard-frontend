@@ -2,7 +2,9 @@
 
 import { AddSources } from "@/components/AddSources";
 import { Table } from "@/components/Table";
+import { useNotification } from "@/contexts/NotificationContext";
 import useApiRequest from "@/hooks/useApiRequest";
+import { formatFileSize } from "@/utils";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -11,81 +13,41 @@ export default function Sources() {
   const [search, setSearch] = useState("");
   const [sources, setSources] = useState<any>([]);
   const router = useRouter();
-  const data = [
-    {
-      resource: "Chatbot scenarios",
-      title: "FAQ",
-      size: "11.2 KB",
-      tokens: "1.924",
-      "last trained": "1/6/2022 3:23:00 AM",
-    },
-    {
-      resource: "Chatbot scenarios",
-      title: "FAQ",
-      size: "11.2 KB",
-      tokens: "1.924",
-      "last trained": "1/6/2022 3:23:00 AM",
-    },
-    {
-      resource: "Chatbot scenarios",
-      title: "FAQ",
-      size: "11.2 KB",
-      tokens: "1.924",
-      "last trained": "1/6/2022 3:23:00 AM",
-    },
-    {
-      resource: "Chatbot scenarios",
-      title: "FAQ",
-      size: "11.2 KB",
-      tokens: "1.924",
-      "last trained": "1/6/2022 3:23:00 AM",
-    },
-    {
-      resource: "Chatbot scenarios",
-      title: "FAQ",
-      size: "11.2 KB",
-      tokens: "1.924",
-      "last trained": "1/6/2022 3:23:00 AM",
-    },
-    {
-      resource: "Chatbot scenarios",
-      title: "FAQ",
-      size: "11.2 KB",
-      tokens: "1.924",
-      "last trained": "1/6/2022 3:23:00 AM",
-    },
-  ];
-  const columns = ["resource", "title", "size", "tokens", "last trained"];
+  const { notify } = useNotification();
+  const columns = ["filename", "size", "created_at"];
   const colMap = {
-    resource: "Resource",
-    title: "Title",
+    filename: "Title",
     size: "Size",
-    tokens: "Tokens",
-    "last trained": "Last trained",
+    created_at: "Last trained",
   };
-  const sortableColumns = ["resource", "title", "size", "tokens"];
+  const sortableColumns = ["title", "size"];
 
   useEffect(() => {
     fetchSources();
   }, []);
 
   const fetchSources = async () => {
-    // const result = await makeRequest("/sources", "GET");
-    setSources(data);
+    const result: any = await makeRequest("/document", "GET");
+    result.data.forEach((s: any) => (s.size = formatFileSize(s.size)));
+
+    setSources(result.data);
+
+    if (!result.data.length) {
+      router.push("/sources/create");
+    }
   };
 
   const handleDelete = async (item: any) => {
-    // makeRequest(`/sources/${item.id}`, "DELETE");
-    console.log("Delete", item);
+    await makeRequest(`/document/${item.id}`, "DELETE");
+    setSources(sources.filter((s: any) => s.id !== item.id));
+    notify("Source deleted successfully", "success");
   };
 
   return (
     <div className="main-content flex flex-col flex-grow p-4">
-      {loading ? (
-        <h2>Loading...</h2>
-      ) : error ? (
+      {error ? (
         <div>{error}</div>
-      ) : sources && sources.length ? (
+      ) : (
         <>
           <div className="flex justify-between items-center mb-4">
             <input
@@ -115,8 +77,6 @@ export default function Sources() {
             onDelete={handleDelete}
           />
         </>
-      ) : (
-        <AddSources></AddSources>
       )}
     </div>
   );

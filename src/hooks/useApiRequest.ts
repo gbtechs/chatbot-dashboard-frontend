@@ -12,7 +12,8 @@ const useApiRequest = () => {
   const makeRequest = async <T>(
     url: string,
     method: "GET" | "POST" | "PUT" | "DELETE",
-    body?: any
+    body?: any,
+    headers?: any
   ): Promise<T | null> => {
     setLoading(true);
     setError(null);
@@ -20,7 +21,7 @@ const useApiRequest = () => {
     const config: AxiosRequestConfig = {
       url: "http://157.230.96.120:8000/api" + url,
       method,
-      headers: {
+      headers: headers || {
         "Content-Type": "application/json",
       },
       data: body,
@@ -38,6 +39,7 @@ const useApiRequest = () => {
       const response = await axios(config);
       return response.data;
     } catch (error) {
+      console.error(error);
       const axiosError = error as AxiosError;
 
       if (axiosError.response) {
@@ -53,7 +55,7 @@ const useApiRequest = () => {
       }
 
       notify(error, "error");
-      return null;
+      throw error;
     } finally {
       setLoading(false);
     }

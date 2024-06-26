@@ -3,6 +3,8 @@
 import { useSession } from "next-auth/react";
 import { Sidebar } from "./Sidebar";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface Props {
   children: React.ReactNode;
@@ -11,6 +13,13 @@ interface Props {
 export const MainLayout: React.FC<Props> = ({ children }) => {
   const { data: session, status } = useSession();
   const path = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session && status === "unauthenticated") {
+      router.push("/auth/login");
+    }
+  }, [session]);
 
   return (
     <>
