@@ -52,7 +52,7 @@ export const Sidebar: React.FC = () => {
                 <li
                   key={item.href}
                   className={`mt-2 rounded-full hover:bg-gray-100 ${
-                    pathname === item.href ? "active bg-gray" : ""
+                    pathname.startsWith(item.href) ? "active bg-gray" : ""
                   }`}
                 >
                   <Link
