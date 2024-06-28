@@ -3,14 +3,12 @@ import { Card } from "./Card";
 import { Dropdown } from "./Dropdown";
 import { ToggleButton } from "./ToggleButton";
 import useApiRequest from "@/hooks/useApiRequest";
-import { Tooltip } from "./Tooltip";
 
 interface Props {}
 
 export const ChatbotPreferences: React.FC<Props> = ({}) => {
   const { loading, error, makeRequest } = useApiRequest();
   const [preferences, setPreferences] = useState<any>({});
-  const [showInfo, setShowInfo] = useState<string>("");
 
   const fontOptions = [
     { key: "Inter", value: "inter" },
@@ -57,10 +55,6 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
 
   const onFontChange = (font: string) => {
     alert("font: " + font);
-  };
-
-  const showTooltip = (key: string) => {
-    key === showInfo ? setShowInfo("") : setShowInfo(key);
   };
 
   return (
@@ -121,55 +115,25 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
             <h3>Colors</h3>
 
             <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center relative">
+              <div className="flex items-center">
                 <span className="label-1 mr-1">Primary Color</span>
-                <img
-                  src="/icons/info.svg"
-                  alt="img"
-                  className="cursor-pointer"
-                  onClick={() => showTooltip("primary")}
-                />
-                {showInfo === "primary" && (
-                  <Tooltip>
-                    <span>It applies to top bar color and send icon</span>
-                  </Tooltip>
-                )}
+                <img src="/icons/info.svg" alt="img" />
               </div>
               <img src="/settings-primary-color.svg" alt="img" />
             </div>
 
             <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center relative">
+              <div className="flex items-center">
                 <span className="label-1 mr-1">Secondary Color</span>
-                <img
-                  src="/icons/info.svg"
-                  alt="img"
-                  className="cursor-pointer"
-                  onClick={() => showTooltip("secondary")}
-                />
-                {showInfo === "secondary" && (
-                  <Tooltip>
-                    <span>It applies to chat button</span>
-                  </Tooltip>
-                )}
+                <img src="/icons/info.svg" alt="img" />
               </div>
               <img src="/settings-secondary-color.svg" alt="img" />
             </div>
 
             <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center relative">
+              <div className="flex items-center">
                 <span className="label-1 mr-1">Background Color</span>
-                <img
-                  src="/icons/info.svg"
-                  alt="img"
-                  className="cursor-pointer"
-                  onClick={() => showTooltip("background")}
-                />
-                {showInfo === "background" && (
-                  <Tooltip>
-                    <span>It applies to chat background</span>
-                  </Tooltip>
-                )}
+                <img src="/icons/info.svg" alt="img" />
               </div>
               <img src="/settings-background-color.svg" alt="img" />
             </div>
