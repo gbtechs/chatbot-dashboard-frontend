@@ -20,7 +20,6 @@ export default function ConversationHistory() {
       `/conversations?page=${1}&size=${50}`,
       "GET"
     );
-    console.log(data);
     setConverSations(data.data);
     setSelectedConvo(data.data[0].id);
   };
