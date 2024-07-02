@@ -4,6 +4,7 @@ import { Dropdown } from "./Dropdown";
 import { ToggleButton } from "./ToggleButton";
 import useApiRequest from "@/hooks/useApiRequest";
 import { Tooltip } from "./Tooltip";
+import { ColorPicker } from "./ColorPicker";
 
 interface Props {}
 
@@ -57,6 +58,10 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
 
   const onFontChange = (font: string) => {
     alert("font: " + font);
+  };
+
+  const onColorChange = (color: any) => {
+    setPreferences({ ...preferences, ...color });
   };
 
   const showTooltip = (key: string) => {
@@ -120,56 +125,92 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
           <div className="flex flex-col">
             <h3>Colors</h3>
 
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center relative">
-                <span className="label-1 mr-1">Primary Color</span>
-                <img
-                  src="/icons/info.svg"
-                  alt="img"
-                  className="cursor-pointer"
-                  onClick={() => showTooltip("primary")}
-                />
-                {showInfo === "primary" && (
-                  <Tooltip>
-                    <span>It applies to top bar color and send icon</span>
-                  </Tooltip>
-                )}
+            <div className="flex items-center justify-between mt-4">
+              <div>
+                <div className="flex items-center relative">
+                  <span className="label-1 mr-1">Primary Color</span>
+                  <img
+                    src="/icons/info.svg"
+                    alt="img"
+                    className="cursor-pointer"
+                    onClick={() => showTooltip("primary")}
+                  />
+                  {showInfo === "primary" && (
+                    <Tooltip>
+                      <span>It applies to top bar color and send icon</span>
+                    </Tooltip>
+                  )}
+                </div>
+
+                <div className="flex items-center border-dark rounded-full w-[140px] p-1 mt-2">
+                  <ColorPicker
+                    defColor={preferences.primary_color}
+                    onChange={(c) => onColorChange({ primary_color: c })}
+                  />
+                  <span className="c-gray ml-2 mr-4">
+                    {preferences.primary_color}
+                  </span>
+                </div>
               </div>
               <img src="/settings-primary-color.svg" alt="img" />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center relative">
-                <span className="label-1 mr-1">Secondary Color</span>
-                <img
-                  src="/icons/info.svg"
-                  alt="img"
-                  className="cursor-pointer"
-                  onClick={() => showTooltip("secondary")}
-                />
-                {showInfo === "secondary" && (
-                  <Tooltip>
-                    <span>It applies to chat button</span>
-                  </Tooltip>
-                )}
+            <div className="flex items-center justify-between mt-4">
+              <div>
+                <div className="flex items-center relative">
+                  <span className="label-1 mr-1">Secondary Color</span>
+                  <img
+                    src="/icons/info.svg"
+                    alt="img"
+                    className="cursor-pointer"
+                    onClick={() => showTooltip("secondary")}
+                  />
+                  {showInfo === "secondary" && (
+                    <Tooltip>
+                      <span>It applies to chat button</span>
+                    </Tooltip>
+                  )}
+                </div>
+
+                <div className="flex items-center border-dark rounded-full w-[140px] p-1 mt-2">
+                  <ColorPicker
+                    defColor={preferences.secondary_color}
+                    onChange={(c) => onColorChange({ secondary_color: c })}
+                  />
+                  <span className="c-gray ml-2 mr-4">
+                    {preferences.secondary_color}
+                  </span>
+                </div>
               </div>
               <img src="/settings-secondary-color.svg" alt="img" />
             </div>
 
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center relative">
-                <span className="label-1 mr-1">Background Color</span>
-                <img
-                  src="/icons/info.svg"
-                  alt="img"
-                  className="cursor-pointer"
-                  onClick={() => showTooltip("background")}
-                />
-                {showInfo === "background" && (
-                  <Tooltip>
-                    <span>It applies to chat background</span>
-                  </Tooltip>
-                )}
+            <div className="flex items-center justify-between mt-4">
+              <div>
+                <div className="flex items-center relative">
+                  <span className="label-1 mr-1">Background Color</span>
+                  <img
+                    src="/icons/info.svg"
+                    alt="img"
+                    className="cursor-pointer"
+                    onClick={() => showTooltip("background")}
+                  />
+                  {showInfo === "background" && (
+                    <Tooltip>
+                      <span>It applies to chat background</span>
+                    </Tooltip>
+                  )}
+                </div>
+
+                <div className="flex items-center border-dark rounded-full w-[140px] p-1 mt-2">
+                  <ColorPicker
+                    defColor={preferences.background_color}
+                    onChange={(c) => onColorChange({ background_color: c })}
+                  />
+                  <span className="c-gray ml-2 mr-4">
+                    {preferences.background_color}
+                  </span>
+                </div>
               </div>
               <img src="/settings-background-color.svg" alt="img" />
             </div>
