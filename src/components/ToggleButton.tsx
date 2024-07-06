@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   onChange: (enabled: boolean) => void;
+  defaultValue?: boolean;
 }
 
-export const ToggleButton: React.FC<Props> = ({ onChange }) => {
-  const [enabled, setEnabled] = useState(false);
+export const ToggleButton: React.FC<Props> = ({ onChange, defaultValue }) => {
+  const [enabled, setEnabled] = useState(defaultValue || false);
+
+  useEffect(() => {
+    setEnabled(defaultValue || false);
+  }, [defaultValue]);
 
   const onStateChange = (state: boolean) => {
     setEnabled(state);

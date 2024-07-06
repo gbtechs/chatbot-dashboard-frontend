@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   options: any[];
   onSelect: (option: any) => void;
+  defaultValue?: any;
 }
 
-export const Dropdown: React.FC<Props> = ({ options, onSelect }) => {
+export const Dropdown: React.FC<Props> = ({
+  options,
+  onSelect,
+  defaultValue,
+}) => {
   const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState<any>(options[0]);
+  const [selected, setSelected] = useState<any>(defaultValue || options[0]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      const defOption = options.find((option) => option.value === defaultValue);
+      setSelected(defOption || options[0]);
+    }
+  }, [defaultValue]);
 
   return (
     <div>

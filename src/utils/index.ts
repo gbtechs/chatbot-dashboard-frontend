@@ -29,6 +29,7 @@ export const format24HourTime = (dateString: string): string => {
 
   return formattedTime;
 };
+
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
 
@@ -164,4 +165,12 @@ export const linkifyString = (text: string) => {
   const spanTaggedText = `<span>${replacedText}</span>`;
 
   return spanTaggedText;
+};
+
+export const toQueryString = (params: Record<string, any>): string => {
+  return Object.keys(params)
+    .map(
+      (key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
+    )
+    .join("&");
 };
