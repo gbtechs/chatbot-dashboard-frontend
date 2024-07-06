@@ -375,7 +375,7 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
           <div className="border-1 my-4"></div>
 
           <div className="flex flex-col">
-            <h3>Menu buttons' labels</h3>
+            <h3>Menu buttons&apos; labels</h3>
             <h5 className="py-2">
               Customize default labels for the main menu’s buttons.
             </h5>
