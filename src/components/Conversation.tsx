@@ -27,8 +27,6 @@ export const Conversation: React.FC<Props> = ({ id }) => {
     setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
-
-    console.log("Messages: ", data);
   };
 
   return (

@@ -17,7 +17,6 @@ export const Header: React.FC = () => {
   const { data: session } = useSession() as SessionType;
   const [showProfileBox, setShowProfileBox] = useState<boolean>(false);
   const profileBoxRef = useRef<HTMLDivElement>(null);
-  console.log("session: ", session);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
