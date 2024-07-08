@@ -46,10 +46,12 @@ export const Header: React.FC = () => {
       </div>
       {session?.user && (
         <div className="relative">
-          <UserCircleIcon
+          <img
+            src="/icons/user-circle.svg"
+            alt="user"
             className="h-[30px] w-[30px] cursor-pointer"
             onClick={() => setShowProfileBox(!showProfileBox)}
-          ></UserCircleIcon>
+          ></img>
           {showProfileBox && (
             <div
               ref={profileBoxRef}

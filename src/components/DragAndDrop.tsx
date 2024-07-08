@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { DocumentArrowUpIcon, TrashIcon } from "@heroicons/react/24/outline";
 import useApiRequest from "@/hooks/useApiRequest";
 import { useRouter } from "next/navigation";
 import { useNotification } from "@/contexts/NotificationContext";
@@ -13,7 +12,7 @@ export default function DragAndDrop() {
   const router = useRouter();
   const { notify } = useNotification();
   const { loading, error, makeRequest } = useApiRequest();
-  const allowedFiles = [".doc", ".docx", ".txt", ".tex"];
+  const allowedFiles = [".doc", ".docx", ".txt"];
 
   async function saveFiles(docs: any) {
     const formData = new FormData();
@@ -138,12 +137,16 @@ export default function DragAndDrop() {
         className="flex flex-col items-center m-auto w-full p-8 cursor-pointer"
         onClick={openFileExplorer}
       >
-        <DocumentArrowUpIcon className="w-[50px] h-[50px]" />
+        <img
+          src="/icons/document-up.svg"
+          alt="doc"
+          className="w-[50px] h-[50px]"
+        />
         <h5 className="mt-8">
           Drag & Drop files here, or click to select files.
         </h5>
         <div className="max-w-[350px] mt-4 font-primary text-center">
-          We currently support docs., txt. and tex. file types. Our system
+          We currently support .docs and .txt file types. Our system
           automatically filters out any invalid file types, ensuring a smooth
           and efficient process.
         </div>

@@ -1,14 +1,6 @@
 "use client";
 
 import { SessionType } from "@/types";
-import {
-  ChartBarSquareIcon,
-  ChatBubbleLeftRightIcon,
-  Cog6ToothIcon,
-  DocumentTextIcon,
-  StarIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,16 +10,20 @@ export const Sidebar: React.FC = () => {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", label: "Dashboard", icon: ChartBarSquareIcon },
+    { href: "/", label: "Dashboard", icon: "/icons/dashboard.svg" },
     {
       href: "/conversation-history",
       label: "Conversation History",
-      icon: ChatBubbleLeftRightIcon,
+      icon: "/icons/conversation.svg",
     },
-    { href: "/leads", label: "Leads", icon: UserGroupIcon },
-    { href: "/feedbacks", label: "Feedbacks", icon: StarIcon },
-    { href: "/sources", label: "Sources", icon: DocumentTextIcon },
-    { href: "/settings", label: "Settings / Appearance", icon: Cog6ToothIcon },
+    { href: "/leads", label: "Leads", icon: "/icons/leads.svg" },
+    { href: "/feedbacks", label: "Feedbacks", icon: "/icons/feedbacks.svg" },
+    { href: "/sources", label: "Sources", icon: "/icons/sources.svg" },
+    {
+      href: "/settings",
+      label: "Settings / Appearance",
+      icon: "/icons/settings.svg",
+    },
   ];
 
   return (
@@ -47,7 +43,6 @@ export const Sidebar: React.FC = () => {
         <div className="sidebar-content font-secondary mt-4">
           <ul className="flex flex-col w-full">
             {navItems.map((item) => {
-              const Icon = item.icon;
               return (
                 <li
                   key={item.href}
@@ -59,7 +54,7 @@ export const Sidebar: React.FC = () => {
                     href={item.href}
                     className="flex flex-row items-center h-10 px-3"
                   >
-                    <Icon className="h-5 w-5" />
+                    <img src={item.icon} alt="icon" className="h-5 w-5"></img>
                     <h5 className="ml-3">{item.label}</h5>
                   </Link>
                 </li>
