@@ -26,6 +26,12 @@ export const Sidebar: React.FC = () => {
     },
   ];
 
+  const isPathActive = (path: string) => {
+    return pathname === "/"
+      ? pathname === path
+      : pathname.startsWith(path) && path !== "/";
+  };
+
   return (
     session?.user && (
       <aside className="sidebar w-64 border-1 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in p-4">
@@ -47,7 +53,7 @@ export const Sidebar: React.FC = () => {
                 <li
                   key={item.href}
                   className={`mt-2 rounded-full hover:bg-gray-100 ${
-                    pathname.startsWith(item.href) ? "active bg-gray" : ""
+                    isPathActive(item.href) ? "active bg-gray" : ""
                   }`}
                 >
                   <Link
