@@ -20,7 +20,7 @@ export const GetAccessToken = () => {
 };
 
 export const format24HourTime = (dateString: string): string => {
-  const date = new Date(dateString);
+  const date = new Date(dateString + "Z");
 
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
@@ -31,7 +31,7 @@ export const format24HourTime = (dateString: string): string => {
 };
 
 export const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
+  const date = new Date(dateString + "Z");
 
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
@@ -54,7 +54,7 @@ export const formatDate = (dateString: string): string => {
 };
 
 export const formatchartDate = (dateString: string) => {
-  const date = new Date(dateString);
+  const date = new Date(dateString + "Z");
 
   // Define month names
   const monthNames = [
