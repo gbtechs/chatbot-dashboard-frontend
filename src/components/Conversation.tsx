@@ -2,6 +2,7 @@
 
 import useApiRequest from "@/hooks/useApiRequest";
 import { format24HourTime, formatDate, linkifyString } from "@/utils";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 
 interface Props {
@@ -9,31 +10,55 @@ interface Props {
 }
 
 export const Conversation: React.FC<Props> = ({ id }) => {
-  const [messages, setMessages] = useState<any>();
+  const [messages, setMessages] = useState<any>({});
+  const [page, setPage] = useState<number>(1);
   const { loading, error, makeRequest } = useApiRequest();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (id) {
+      setPage(1);
       setMessages([]);
-      fetchMessages();
+      fetchMessages(1);
     }
   }, [id]);
 
-  const fetchMessages = async () => {
-    const data: any = await makeRequest(`/conversations/${id}`, "GET");
-    setMessages(data.data);
+  const fetchMessages = async (p = 0) => {
+    const res: any = await makeRequest(
+      `/conversations/${id}?page=${p || page}&size=${20}`,
+      "GET"
+    );
 
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+    setPage(p ? p + 1 : page + 1);
+    setMessages((prevData: any) => {
+      if (!prevData?.data) {
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+        return res;
+      } else {
+        return {
+          ...res,
+          data: [...res.data, ...prevData.data],
+        };
+      }
+    });
   };
 
   return (
     <div className="flex flex-col flex-grow bg-gray">
       <div className="h-main overflow-y-auto px-4">
-        {messages &&
-          messages.map((message: any) => {
+        {messages?.data && messages?.count > messages?.data?.length && (
+          <div className="flex justify-center mt-4">
+            <ArrowPathIcon
+              className="h-8 w-8 cursor-pointer"
+              title="Load more"
+              onClick={() => fetchMessages()}
+            ></ArrowPathIcon>
+          </div>
+        )}
+        {messages?.data &&
+          messages.data.map((message: any) => {
             return (
               <div key={message.ai.id} className="flex flex-col">
                 {message.user.message && (
