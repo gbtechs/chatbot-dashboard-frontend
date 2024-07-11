@@ -5,7 +5,7 @@ import { ChatbotIframe } from "@/components/ChatbotIframe";
 import useApiRequest from "@/hooks/useApiRequest";
 import { useEffect, useState } from "react";
 
-export default function ConversationHistory() {
+export default function Settings() {
   const { loading, error, makeRequest } = useApiRequest();
   const [preferences, setPreferences] = useState<any>({});
 
