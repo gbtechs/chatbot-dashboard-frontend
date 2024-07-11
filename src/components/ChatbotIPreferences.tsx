@@ -32,7 +32,7 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
     corner_radios: 30,
     font: "poppins",
     initial_message: "Hi! How can I help you?",
-    buttons: [],
+    buttons: ["Button Label"],
   };
 
   useEffect(() => {
@@ -44,7 +44,8 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
       const data: any = await makeRequest("/appearance", "GET");
 
       Object.keys(defaultPreferences).forEach((key) => {
-        if (!data[key]) data[key] = defaultPreferences[key];
+        if (!data[key] || !data[key]?.length)
+          data[key] = defaultPreferences[key];
       });
 
       setPreferences(data);
@@ -60,44 +61,76 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    file && savePreferences("", { [fileType]: file });
+    file && savePreferences(null, { [fileType]: file });
   };
 
   const onShadowChange = (shadow: boolean) => {
     setPreferences({ ...preferences, shadow });
-    savePreferences(toQueryString({ ...preferences, shadow }), {});
+    savePreferences({ ...preferences, shadow }, {});
   };
 
   const onStrokeChange = (stroke: boolean) => {
     setPreferences({ ...preferences, stroke });
-    savePreferences(toQueryString({ ...preferences, stroke }), {});
+    savePreferences({ ...preferences, stroke }, {});
   };
 
   const onFontChange = (font: string) => {
     setPreferences({ ...preferences, font });
-    savePreferences(toQueryString({ ...preferences, font }), {});
+    savePreferences({ ...preferences, font }, {});
   };
 
   const onColorChange = (color: any) => {
     setPreferences({ ...preferences, ...color });
-    savePreferences(toQueryString({ ...preferences, ...color }), {});
+    savePreferences({ ...preferences, ...color }, {});
   };
 
   const onInitialMessageChange = () => {
-    savePreferences(toQueryString({ ...preferences }), {});
+    savePreferences({ ...preferences }, {});
   };
 
   const onCornerRadiusChange = () => {
-    savePreferences(toQueryString({ ...preferences }), {});
+    savePreferences({ ...preferences }, {});
   };
 
-  const savePreferences = async (query: string, body: any) => {
+  const onButtonChange = () => {
+    savePreferences({ ...preferences }, {});
+  };
+
+  const handleButtonInput = (e: any, index: number) => {
+    preferences.buttons[index] = e.target.value;
+    setPreferences({ ...preferences });
+  };
+
+  const addButton = () => {
+    if (preferences.buttons.length >= 3) return;
+    preferences.buttons.push("Button Label");
+    setPreferences({ ...preferences });
+  };
+
+  const savePreferences = async (params: any, body: any) => {
     try {
+      let query = "";
+      if (params && params.buttons) {
+        let buttons = {};
+        params.buttons.forEach((b: any, index: number) => {
+          buttons = { ...buttons, ["button_" + (index + 1) + ""]: b };
+        });
+
+        const prefs = { ...params, ...buttons };
+        delete prefs.buttons;
+        query = toQueryString(prefs);
+      }
+
       await makeRequest(`/appearance?${query}`, "POST", body, {
         accept: "multipart/form-data;",
       });
+
       notify("Preferences saved successfully", "success");
-    } catch (error) {}
+
+      if (fileInputRef?.current) fileInputRef.current.value = "";
+    } catch (error) {
+      notify("Failed to save preferences", "error");
+    }
   };
 
   const showTooltip = (key: string) => {
@@ -311,7 +344,7 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
                   min={0}
                   max={100}
                   className="input-text w-16 rounded p-2 mt-2 ml-4"
-                  value={preferences.corner_radius}
+                  value={preferences?.corner_radius || 0}
                   onChange={(e) =>
                     setPreferences({
                       ...preferences,
@@ -360,7 +393,7 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
             </div>
             <input
               type="text"
-              className="input-text rounded-full px-4 py-2"
+              className="input-text rounded-full text-sm px-4 py-2"
               value={preferences.initial_message || ""}
               onChange={(e) =>
                 setPreferences({
@@ -379,14 +412,28 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
             <h5 className="py-2">
               Customize default labels for the main menu’s buttons.
             </h5>
-            <input
-              type="text"
-              className="input-text rounded-full max-w-[320px] px-4 py-2"
-            />
-            <div className="flex items-center cursor-pointer mt-2 mb-4">
-              <img src="/icons/plus.svg" alt="+" className="mr-2" />
-              <h5>Add more buttons</h5>
-            </div>
+
+            {preferences?.buttons &&
+              preferences.buttons.map((button: any, index: number) => (
+                <input
+                  key={"button_" + (index + 1)}
+                  type="text"
+                  value={button || ""}
+                  className="input-text rounded-full max-w-[320px] text-sm px-4 py-2 mt-2"
+                  onChange={(e) => handleButtonInput(e, index)}
+                  onBlur={onButtonChange}
+                />
+              ))}
+
+            {preferences?.buttons && preferences?.buttons.length < 3 && (
+              <div
+                className="flex items-center cursor-pointer mt-2 mb-4"
+                onClick={addButton}
+              >
+                <img src="/icons/plus.svg" alt="+" className="mr-2" />
+                <h5>Add more buttons</h5>
+              </div>
+            )}
           </div>
         </div>
       </Card>
