@@ -4,7 +4,6 @@ import { Poppins } from "next/font/google";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { Header } from "@/components/Header";
 import { AuthProvider } from "@/contexts/AuthProvider";
-import { Sidebar } from "@/components/Sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { MainLayout } from "@/components/MainLayout";

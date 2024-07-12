@@ -14,9 +14,9 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
   const { loading, error, makeRequest } = useApiRequest();
   const [preferences, setPreferences] = useState<any>({});
   const [showInfo, setShowInfo] = useState<string>("");
-  const [fileType, setFileType] = useState<string>("");
   const { notify } = useNotification();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  const iconInputRef = useRef<HTMLInputElement>(null);
 
   const fontOptions = [
     { key: "Inter", value: "inter" },
@@ -27,12 +27,12 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
     primary_color: "#219ebc",
     secondary_color: "#fb8500",
     background_color: "#f7f9fb",
-    shadow: true,
+    shadow: false,
     stroke: false,
-    corner_radios: 30,
-    font: "poppins",
+    corner_radius: 0,
+    font: "inter",
     initial_message: "Hi! How can I help you?",
-    buttons: ["Button Label"],
+    buttons: [],
   };
 
   useEffect(() => {
@@ -44,90 +44,94 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
       const data: any = await makeRequest("/appearance", "GET");
 
       Object.keys(defaultPreferences).forEach((key) => {
-        if (!data[key] || !data[key]?.length)
-          data[key] = defaultPreferences[key];
+        if (!data[key]) data[key] = defaultPreferences[key];
       });
 
       setPreferences(data);
+      // throw new Error();
     } catch (error) {
+      savePreferences(defaultPreferences);
       setPreferences(defaultPreferences);
     }
   };
 
-  const openFileUpload = (source: string) => {
-    setFileType(source);
-    fileInputRef.current && fileInputRef.current.click();
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    fileType: string
+  ) => {
     const file = event.target.files?.[0];
-    file && savePreferences(null, { [fileType]: file });
+    if (file) {
+      const maxSizeInMB = 2;
+      const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+      if (file.size > maxSizeInBytes) {
+        notify(`File size should not exceed ${maxSizeInMB} MB`, "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result?.toString();
+        if (base64String) {
+          savePreferences({ [fileType]: base64String });
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const onShadowChange = (shadow: boolean) => {
     setPreferences({ ...preferences, shadow });
-    savePreferences({ ...preferences, shadow }, {});
+    savePreferences({ shadow });
   };
 
   const onStrokeChange = (stroke: boolean) => {
     setPreferences({ ...preferences, stroke });
-    savePreferences({ ...preferences, stroke }, {});
+    savePreferences({ stroke });
   };
 
   const onFontChange = (font: string) => {
     setPreferences({ ...preferences, font });
-    savePreferences({ ...preferences, font }, {});
+    savePreferences({ font });
   };
 
   const onColorChange = (color: any) => {
     setPreferences({ ...preferences, ...color });
-    savePreferences({ ...preferences, ...color }, {});
+    savePreferences({ ...color });
   };
 
   const onInitialMessageChange = () => {
-    savePreferences({ ...preferences }, {});
+    savePreferences({ initial_message: preferences.initial_message });
   };
 
   const onCornerRadiusChange = () => {
-    savePreferences({ ...preferences }, {});
+    savePreferences({ corner_radius: preferences.corner_radius });
   };
 
   const onButtonChange = () => {
-    savePreferences({ ...preferences }, {});
+    savePreferences({ buttons: preferences.buttons });
   };
 
   const handleButtonInput = (e: any, index: number) => {
-    preferences.buttons[index] = e.target.value;
+    preferences.buttons[index] = { ["button_" + (index + 1)]: e.target.value };
     setPreferences({ ...preferences });
   };
 
   const addButton = () => {
     if (preferences.buttons.length >= 3) return;
-    preferences.buttons.push("Button Label");
+    preferences.buttons.push({
+      ["button_" + (preferences.buttons.length + 1)]: "Button Label",
+    });
     setPreferences({ ...preferences });
   };
 
-  const savePreferences = async (params: any, body: any) => {
+  const savePreferences = async (body: any) => {
     try {
-      let query = "";
-      if (params && params.buttons) {
-        let buttons = {};
-        params.buttons.forEach((b: any, index: number) => {
-          buttons = { ...buttons, ["button_" + (index + 1) + ""]: b };
-        });
-
-        const prefs = { ...params, ...buttons };
-        delete prefs.buttons;
-        query = toQueryString(prefs);
-      }
-
-      await makeRequest(`/appearance?${query}`, "POST", body, {
-        accept: "multipart/form-data;",
-      });
+      await makeRequest(`/appearance`, "POST", body);
 
       notify("Preferences saved successfully", "success");
 
-      if (fileInputRef?.current) fileInputRef.current.value = "";
+      if (logoInputRef?.current) logoInputRef.current.value = "";
     } catch (error) {
       notify("Failed to save preferences", "error");
     }
@@ -158,15 +162,17 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
             </div>
             <div
               className="w-[40px] rounded-full border-dark cursor-pointer p-2"
-              onClick={() => openFileUpload("logo")}
+              onClick={() =>
+                logoInputRef.current && logoInputRef.current.click()
+              }
             >
               <img className="" src="/icons/image.svg" alt="img" />
               <input
                 type="file"
-                ref={fileInputRef}
+                ref={logoInputRef}
                 className="hidden"
                 accept=".jpg, .jpeg, .png"
-                onChange={handleFileChange}
+                onChange={(e) => handleFileChange(e, "logo")}
               />
             </div>
           </div>
@@ -190,9 +196,18 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
             </div>
             <div
               className="w-[40px] rounded-full border-dark cursor-pointer p-2"
-              onClick={() => openFileUpload("icon")}
+              onClick={() =>
+                iconInputRef.current && iconInputRef.current.click()
+              }
             >
               <img className="" src="/icons/profile.svg" alt="img" />
+              <input
+                type="file"
+                ref={iconInputRef}
+                className="hidden"
+                accept=".jpg, .jpeg, .png"
+                onChange={(e) => handleFileChange(e, "icon")}
+              />
             </div>
           </div>
 
@@ -368,7 +383,7 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
               Select from a curated collection of popular Google fonts to
               personalize your design.
             </h5>
-            <div className="">
+            <div>
               <Dropdown
                 defaultValue={preferences.font}
                 options={fontOptions}
@@ -418,7 +433,7 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
                 <input
                   key={"button_" + (index + 1)}
                   type="text"
-                  value={button || ""}
+                  value={button["button_" + (index + 1)] || ""}
                   className="input-text rounded-full max-w-[320px] text-sm px-4 py-2 mt-2"
                   onChange={(e) => handleButtonInput(e, index)}
                   onBlur={onButtonChange}

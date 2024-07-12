@@ -31,7 +31,7 @@ export const Dropdown: React.FC<Props> = ({
         <img src="/icons/chevron-down.svg" alt="down" />
       </button>
       {show && (
-        <div className="p-2 bg-white border-1 radius-1 font-primary-1 mt-1">
+        <div className="w-[150px] bg-white border-1 radius-1 font-primary-1 p-2 mt-1">
           {options.map((option) => (
             <div
               key={option.key}
