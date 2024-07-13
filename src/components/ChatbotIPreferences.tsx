@@ -7,10 +7,15 @@ import { Tooltip } from "./Tooltip";
 import { ColorPicker } from "./ColorPicker";
 import { useNotification } from "@/contexts/NotificationContext";
 import { toQueryString } from "@/utils";
+import { TrashIcon } from "@heroicons/react/24/outline";
 
-interface Props {}
+interface Props {
+  onPreferencesUpdated: (preferences: any) => void;
+}
 
-export const ChatbotPreferences: React.FC<Props> = ({}) => {
+export const ChatbotPreferences: React.FC<Props> = ({
+  onPreferencesUpdated,
+}) => {
   const { loading, error, makeRequest } = useApiRequest();
   const [preferences, setPreferences] = useState<any>({});
   const [showInfo, setShowInfo] = useState<string>("");
@@ -48,10 +53,11 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
       });
 
       setPreferences(data);
-      // throw new Error();
+      onPreferencesUpdated(data);
     } catch (error) {
       savePreferences(defaultPreferences);
       setPreferences(defaultPreferences);
+      onPreferencesUpdated(defaultPreferences);
     }
   };
 
@@ -63,6 +69,12 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
     if (file) {
       const maxSizeInMB = 2;
       const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+      const allowedExtensions = ["image/png", "image/jpeg"];
+
+      if (!allowedExtensions.includes(file.type)) {
+        notify("Only PNG and JPG files are allowed", "error");
+        return;
+      }
 
       if (file.size > maxSizeInBytes) {
         notify(`File size should not exceed ${maxSizeInMB} MB`, "error");
@@ -125,13 +137,21 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
     setPreferences({ ...preferences });
   };
 
+  const removeButton = (index: number) => {
+    preferences.buttons.splice(index, 1);
+    setPreferences({ ...preferences });
+    savePreferences({ buttons: preferences.buttons });
+  };
+
   const savePreferences = async (body: any) => {
     try {
       await makeRequest(`/appearance`, "POST", body);
 
       notify("Preferences saved successfully", "success");
+      onPreferencesUpdated({ ...preferences, ...body });
 
       if (logoInputRef?.current) logoInputRef.current.value = "";
+      if (iconInputRef?.current) iconInputRef.current.value = "";
     } catch (error) {
       notify("Failed to save preferences", "error");
     }
@@ -366,6 +386,13 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
                       corner_radius: e.target.value,
                     })
                   }
+                  onKeyDown={(e: any) =>
+                    e.key === "Enter" &&
+                    setPreferences({
+                      ...preferences,
+                      corner_radius: e.target.value,
+                    })
+                  }
                   onBlur={onCornerRadiusChange}
                 />
               </div>
@@ -416,6 +443,13 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
                   initial_message: e.target.value,
                 })
               }
+              onKeyDown={(e: any) =>
+                e.key === "Enter" &&
+                setPreferences({
+                  ...preferences,
+                  initial_message: e.target.value,
+                })
+              }
               onBlur={onInitialMessageChange}
             />
           </div>
@@ -430,14 +464,25 @@ export const ChatbotPreferences: React.FC<Props> = ({}) => {
 
             {preferences?.buttons &&
               preferences.buttons.map((button: any, index: number) => (
-                <input
+                <div
                   key={"button_" + (index + 1)}
-                  type="text"
-                  value={button["button_" + (index + 1)] || ""}
-                  className="input-text rounded-full max-w-[320px] text-sm px-4 py-2 mt-2"
-                  onChange={(e) => handleButtonInput(e, index)}
-                  onBlur={onButtonChange}
-                />
+                  className="flex items-center mt-2"
+                >
+                  <input
+                    type="text"
+                    value={button["button_" + (index + 1)] || ""}
+                    className="input-text rounded-full max-w-[320px] text-sm px-4 py-2"
+                    onChange={(e) => handleButtonInput(e, index)}
+                    onKeyDown={(event) =>
+                      event.key === "Enter" && handleButtonInput(event, index)
+                    }
+                    onBlur={onButtonChange}
+                  />
+                  <TrashIcon
+                    className="ml-2 w-4 h-4 cursor-pointer text-red-500"
+                    onClick={() => removeButton(index)}
+                  ></TrashIcon>
+                </div>
               ))}
 
             {preferences?.buttons && preferences?.buttons.length < 3 && (
