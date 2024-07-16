@@ -15,7 +15,7 @@ export const ChatbotIframe: React.FC<Props> = ({ preferences }) => {
     preferences && (
       <div className="chat-container">
         <div
-          className="iframe-container radius-1"
+          className="iframe-container"
           id="iframeContainer"
           style={{
             backgroundColor: preferences.background_color,
@@ -33,7 +33,7 @@ export const ChatbotIframe: React.FC<Props> = ({ preferences }) => {
             src="http://165.227.154.88:3001/chatbot/1"
             title="description"
             width="400"
-            height="550"
+            height="540"
           ></iframe>
         </div>
 

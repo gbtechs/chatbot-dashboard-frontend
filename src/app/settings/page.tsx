@@ -3,28 +3,21 @@
 import { ChatbotPreferences } from "@/components/ChatbotIPreferences";
 import { ChatbotIframe } from "@/components/ChatbotIframe";
 import useApiRequest from "@/hooks/useApiRequest";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Settings() {
-  const { loading, error, makeRequest } = useApiRequest();
   const [preferences, setPreferences] = useState<any>({});
 
   return (
-    <div className="main-content flex flex-col flex-grow">
-      {loading ? (
-        <div>Loading</div>
-      ) : error ? (
-        <div>{error}</div>
-      ) : (
-        <div className="flex">
-          <main className="main flex flex-col flex-grow bg-gray -ml-128 sm:ml-0 transition-all duration-150 ease-in p-4">
-            <ChatbotPreferences onPreferencesUpdated={setPreferences} />
-          </main>
-          <aside className="sidebar w-128 h-main transform -translate-x-full sm:translate-x-0 transition-transform duration-150 ease-in pt-4 pr-2">
-            <ChatbotIframe preferences={preferences} />
-          </aside>
-        </div>
-      )}
+    <div className="flex flex-col h-screen">
+      <div className="flex flex-grow">
+        <main className="main flex flex-col flex-grow bg-gray transition-all duration-150 ease-in overflow-y-auto p-4 md:mr-[405px]">
+          <ChatbotPreferences onPreferencesUpdated={setPreferences} />
+        </main>
+        <aside className="sidebar hidden md:block w-128 h-full fixed right-0 top-[80px] pt-4 pr-2">
+          <ChatbotIframe preferences={preferences} />
+        </aside>
+      </div>
     </div>
   );
 }
