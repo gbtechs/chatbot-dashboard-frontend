@@ -6,7 +6,6 @@ import useApiRequest from "@/hooks/useApiRequest";
 import { Tooltip } from "./Tooltip";
 import { ColorPicker } from "./ColorPicker";
 import { useNotification } from "@/contexts/NotificationContext";
-import { toQueryString } from "@/utils";
 import { TrashIcon } from "@heroicons/react/24/outline";
 
 interface Props {
@@ -19,22 +18,33 @@ export const ChatbotPreferences: React.FC<Props> = ({
   const { loading, error, makeRequest } = useApiRequest();
   const [preferences, setPreferences] = useState<any>({});
   const [showInfo, setShowInfo] = useState<string>("");
+  const [showShadow, setShowShadow] = useState<boolean>(false);
+  const [showStroke, setShowStroke] = useState<boolean>(false);
   const { notify } = useNotification();
   const logoInputRef = useRef<HTMLInputElement>(null);
   const iconInputRef = useRef<HTMLInputElement>(null);
 
   const fontOptions = [
     { key: "Inter", value: "inter" },
+    { key: "Open Sans", value: "openSans" },
+    { key: "Roboto", value: "roboto" },
+    { key: "Lato", value: "lato" },
+    { key: "Montserrat", value: "montserrat" },
+    { key: "Oswald", value: "oswald" },
+    { key: "Raleway", value: "raleway" },
     { key: "Poppins", value: "poppins" },
+    { key: "Nunito", value: "nunito" },
   ];
 
   const defaultPreferences: any = {
+    logo: "",
+    icon: "",
     primary_color: "#219ebc",
     secondary_color: "#fb8500",
     background_color: "#f7f9fb",
-    shadow: false,
-    stroke: false,
-    corner_radius: 0,
+    shadow: "#b3c1c8",
+    stroke: "#dde2e4",
+    corner_radius: 30,
     font: "inter",
     initial_message: "Hi! How can I help you?",
     buttons: [],
@@ -52,9 +62,14 @@ export const ChatbotPreferences: React.FC<Props> = ({
         if (!data[key]) data[key] = defaultPreferences[key];
       });
 
+      !!data.shadow && setShowShadow(true);
+      !!data.stroke && setShowStroke(true);
       setPreferences(data);
       onPreferencesUpdated(data);
+      // throw new Error();
     } catch (error) {
+      !!defaultPreferences.shadow && setShowShadow(true);
+      !!defaultPreferences.stroke && setShowStroke(true);
       savePreferences(defaultPreferences);
       setPreferences(defaultPreferences);
       onPreferencesUpdated(defaultPreferences);
@@ -92,14 +107,22 @@ export const ChatbotPreferences: React.FC<Props> = ({
     }
   };
 
-  const onShadowChange = (shadow: boolean) => {
-    setPreferences({ ...preferences, shadow });
-    savePreferences({ shadow });
+  const toggleShadow = (shadow: boolean) => {
+    setShowShadow(shadow);
+    setPreferences({
+      ...preferences,
+      shadow: shadow ? defaultPreferences.shadow : "",
+    });
+    savePreferences({ shadow: shadow ? defaultPreferences.shadow : "" });
   };
 
-  const onStrokeChange = (stroke: boolean) => {
-    setPreferences({ ...preferences, stroke });
-    savePreferences({ stroke });
+  const toggleStroke = (stroke: boolean) => {
+    setShowStroke(stroke);
+    setPreferences({
+      ...preferences,
+      stroke: stroke ? defaultPreferences.stroke : "",
+    });
+    savePreferences({ stroke: stroke ? defaultPreferences.stroke : "" });
   };
 
   const onFontChange = (font: string) => {
@@ -155,6 +178,12 @@ export const ChatbotPreferences: React.FC<Props> = ({
     } catch (error) {
       notify("Failed to save preferences", "error");
     }
+  };
+
+  const resetToDefault = async () => {
+    savePreferences(defaultPreferences);
+    setPreferences(defaultPreferences);
+    onPreferencesUpdated(defaultPreferences);
   };
 
   const showTooltip = (key: string) => {
@@ -335,12 +364,21 @@ export const ChatbotPreferences: React.FC<Props> = ({
                 <h3 className="min-w-[70px] mr-4">Shadow</h3>
                 <ToggleButton
                   defaultValue={preferences.shadow}
-                  onChange={onShadowChange}
+                  onChange={toggleShadow}
                 />
               </div>
               <h5 className="mt-2 pr-4">
                 Choose whether you want to have shadow under the chat area.
               </h5>
+              {showShadow && (
+                <div className="flex items-center border-dark rounded-full w-[140px] p-1 mt-2">
+                  <ColorPicker
+                    defColor={preferences.shadow}
+                    onChange={(c) => onColorChange({ shadow: c })}
+                  />
+                  <span className="c-gray ml-2 mr-4">{preferences.shadow}</span>
+                </div>
+              )}
             </div>
             <div>
               <img src="/settings-shadow.svg" alt="img"></img>
@@ -355,12 +393,21 @@ export const ChatbotPreferences: React.FC<Props> = ({
                 <h3 className="min-w-[70px] mr-4">Stroke</h3>
                 <ToggleButton
                   defaultValue={preferences.stroke}
-                  onChange={onStrokeChange}
+                  onChange={toggleStroke}
                 />
               </div>
               <h5 className="mt-2 pr-4">
                 Choose whether you want to have stroke around the chat area.
               </h5>
+              {showStroke && (
+                <div className="flex items-center border-dark rounded-full w-[140px] p-1 mt-2">
+                  <ColorPicker
+                    defColor={preferences.stroke}
+                    onChange={(c) => onColorChange({ stroke: c })}
+                  />
+                  <span className="c-gray ml-2 mr-4">{preferences.stroke}</span>
+                </div>
+              )}
             </div>
             <div>
               <img src="/settings-stroke.svg" alt="img"></img>
@@ -494,6 +541,17 @@ export const ChatbotPreferences: React.FC<Props> = ({
                 <h5>Add more buttons</h5>
               </div>
             )}
+          </div>
+
+          <div className="border-1 my-4"></div>
+
+          <div className="flex justify-center align-center">
+            <button
+              className="bg-orange text-white rounded-full px-4 py-2"
+              onClick={resetToDefault}
+            >
+              Reset to default
+            </button>
           </div>
         </div>
       </Card>

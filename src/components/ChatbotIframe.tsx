@@ -18,10 +18,13 @@ export const ChatbotIframe: React.FC<Props> = ({ preferences }) => {
           className="iframe-container radius-1"
           id="iframeContainer"
           style={{
-            boxShadow: preferences.shadow ? "0 0 10px rgba(0, 0, 0, 0.5)" : "",
+            backgroundColor: preferences.background_color,
             borderRadius: preferences.corner_radius + "px",
+            boxShadow: preferences.shadow
+              ? `0 0 10px ${preferences.shadow}`
+              : "",
             border: preferences.stroke
-              ? `1px solid ${preferences.background_color || "gray"}`
+              ? `1px solid ${preferences.stroke}`
               : +"",
           }}
         >

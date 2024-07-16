@@ -22,7 +22,7 @@ export const Dropdown: React.FC<Props> = ({
   }, [defaultValue]);
 
   return (
-    <div>
+    <div className="relative">
       <button
         className="w-[150px] h-[40px] flex justify-between items-center rounded-full border-1 radius-[15px] bg-white font-primary py-4 px-6"
         onClick={() => setShow(!show)}
@@ -31,7 +31,7 @@ export const Dropdown: React.FC<Props> = ({
         <img src="/icons/chevron-down.svg" alt="down" />
       </button>
       {show && (
-        <div className="w-[150px] bg-white border-1 radius-1 font-primary-1 p-2 mt-1">
+        <div className="w-[150px] absolute top-[45px] z-10 bg-white border-1 radius-1 font-primary-1 p-2">
           {options.map((option) => (
             <div
               key={option.key}

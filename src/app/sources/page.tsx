@@ -20,7 +20,7 @@ export default function Sources() {
     size: "Size",
     created_at: "Last trained",
   };
-  const sortableColumns = ["title", "size"];
+  const sortableColumns = ["filename", "size", "created_at"];
 
   useEffect(() => {
     fetchSources();
@@ -46,7 +46,10 @@ export default function Sources() {
 
   const handleDelete = async (item: any) => {
     await makeRequest(`/document/${item.id}`, "DELETE");
-    setSources(sources.filter((s: any) => s.id !== item.id));
+    setSources({
+      ...sources,
+      data: sources.data.filter((s: any) => s.id !== item.id),
+    });
     notify("Source deleted successfully", "success");
   };
 
