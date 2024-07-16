@@ -4,8 +4,13 @@ import { SessionType } from "@/types";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
-export const Sidebar: React.FC = () => {
+interface Props {
+  sidebarOpen: boolean;
+}
+
+export const Sidebar: React.FC<Props> = ({ sidebarOpen }) => {
   const { data: session } = useSession() as SessionType;
   const pathname = usePathname();
 
@@ -34,7 +39,11 @@ export const Sidebar: React.FC = () => {
 
   return (
     session?.user && (
-      <aside className="sidebar w-64 border-1 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in p-4">
+      <aside
+        className={`sidebar fixed top-[80px] left-0 h-full w-64 border-1 md:shadow p-4 transform ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 transition-transform duration-150 ease-in-out z-50 bg-white`}
+      >
         <div className="sidebar-header flex items-center justify-center">
           <div className="flex flex-col w-full font-primary">
             <span>Chatbot name</span>
