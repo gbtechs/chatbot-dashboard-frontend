@@ -3,6 +3,7 @@ import { ConversationListItem } from "./ConversationListItem";
 import { useEffect, useState } from "react";
 import { formatDate } from "@/utils";
 import { Conversation } from "./Conversation";
+import { NoDataCard } from "./NoDataCard";
 
 interface Props {
   search: string;
@@ -46,7 +47,13 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
   return (
     <div className="main-content flex flex-col flex-grow">
       {conversations && conversations.data && !conversations.data.length && (
-        <div>No match</div>
+        <div className="m-auto">
+          <NoDataCard
+            image="/no-conversations.png"
+            title="No match"
+            desc="No messages found matching your query. Please check your spellings or try searching for something else"
+          ></NoDataCard>
+        </div>
       )}
 
       {!!conversations?.data?.length && (

@@ -25,6 +25,8 @@ export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
     }
   }, [id]);
 
+  useEffect(() => scroll(), [scrollToId]);
+
   const fetchMessages = async (p = 0) => {
     const res: any = await makeRequest(
       `/conversations/${id}?page=${p || page}&size=${scrollToId ? 200 : 30}`,
@@ -78,7 +80,9 @@ export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
                 ref={(el: any) =>
                   (messageRefs.current[message.message_pair_id] = el)
                 }
-                className="flex flex-col"
+                className={`flex flex-col${
+                  message.message_pair_id === scrollToId ? " msg-highlight" : ""
+                }`}
               >
                 {message.user.message && (
                   <div className="relative max-w-[500px] flex items-center self-end bg-white msg-bubble-right px-4 pt-4 pb-6 mb-2">
