@@ -68,33 +68,25 @@ export default function Home() {
 
   return (
     <div className="main-content flex flex-col flex-grow p-4">
-      <div className="container mx-auto">
+      <div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div className="">
-            <Card title="Total Conversations">
-              <h2 className="color-blue mt-2 pb-0">
-                {stats?.total_conversations || 0}
-              </h2>
-            </Card>
-          </div>
+          <Card title="Total Conversations">
+            <h2 className="color-blue mt-2 pb-0">
+              {stats?.total_conversations || 0}
+            </h2>
+          </Card>
 
-          <div className="">
-            <Card title="Average time of conversation">
-              <h2 className="color-blue mt-2 pb-0">
-                {stats?.average_conversation_time
-                  ? formatSeconds(stats.average_conversation_time)
-                  : 0}
-              </h2>
-            </Card>
-          </div>
+          <Card title="Average time of conversation">
+            <h2 className="color-blue mt-2 pb-0">
+              {stats?.average_conversation_time
+                ? formatSeconds(stats.average_conversation_time)
+                : 0}
+            </h2>
+          </Card>
 
-          <div className="">
-            <Card title="New Leads">
-              <h2 className="color-blue mt-2 pb-0">
-                {stats?.total_leads || 0}
-              </h2>
-            </Card>
-          </div>
+          <Card title="New Leads">
+            <h2 className="color-blue mt-2 pb-0">{stats?.total_leads || 0}</h2>
+          </Card>
         </div>
       </div>
 

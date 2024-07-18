@@ -158,6 +158,7 @@ export const ChatbotPreferences: React.FC<Props> = ({
       ["button_" + (preferences.buttons.length + 1)]: "Button Label",
     });
     setPreferences({ ...preferences });
+    savePreferences({ buttons: preferences.buttons });
   };
 
   const removeButton = (index: number) => {
@@ -518,17 +519,19 @@ export const ChatbotPreferences: React.FC<Props> = ({
                   <input
                     type="text"
                     value={button["button_" + (index + 1)] || ""}
-                    className="input-text rounded-full max-w-[320px] text-sm px-4 py-2"
+                    className="input-text rounded-full max-w-[320px] text-sm px-4 py-2 text-center"
                     onChange={(e) => handleButtonInput(e, index)}
                     onKeyDown={(event) =>
                       event.key === "Enter" && handleButtonInput(event, index)
                     }
                     onBlur={onButtonChange}
                   />
-                  <TrashIcon
-                    className="ml-2 w-4 h-4 cursor-pointer text-red-500"
-                    onClick={() => removeButton(index)}
-                  ></TrashIcon>
+                  {preferences.buttons.length - 1 === index && (
+                    <TrashIcon
+                      className="ml-2 w-4 h-4 cursor-pointer text-red-500"
+                      onClick={() => removeButton(index)}
+                    ></TrashIcon>
+                  )}
                 </div>
               ))}
 
