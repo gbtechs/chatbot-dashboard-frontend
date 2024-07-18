@@ -7,13 +7,15 @@ import { useEffect, useRef, useState } from "react";
 
 interface Props {
   id: string;
+  scrollToId?: string;
 }
 
-export const Conversation: React.FC<Props> = ({ id }) => {
+export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
   const [messages, setMessages] = useState<any>({});
   const [page, setPage] = useState<number>(1);
   const { loading, error, makeRequest } = useApiRequest();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messageRefs = useRef<any>([]);
 
   useEffect(() => {
     if (id) {
@@ -25,16 +27,14 @@ export const Conversation: React.FC<Props> = ({ id }) => {
 
   const fetchMessages = async (p = 0) => {
     const res: any = await makeRequest(
-      `/conversations/${id}?page=${p || page}&size=${20}`,
+      `/conversations/${id}?page=${p || page}&size=${scrollToId ? 200 : 30}`,
       "GET"
     );
 
     setPage(p ? p + 1 : page + 1);
     setMessages((prevData: any) => {
       if (!prevData?.data) {
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+        scroll();
         return res;
       } else {
         return {
@@ -43,6 +43,19 @@ export const Conversation: React.FC<Props> = ({ id }) => {
         };
       }
     });
+  };
+
+  const scroll = () => {
+    setTimeout(() => {
+      if (scrollToId) {
+        const messageElement = messageRefs.current[scrollToId];
+        if (messageElement) {
+          messageElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } else {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 100);
   };
 
   return (
@@ -60,7 +73,13 @@ export const Conversation: React.FC<Props> = ({ id }) => {
         {messages?.data &&
           messages.data.map((message: any) => {
             return (
-              <div key={message.ai.id} className="flex flex-col">
+              <div
+                key={message.message_pair_id}
+                ref={(el: any) =>
+                  (messageRefs.current[message.message_pair_id] = el)
+                }
+                className="flex flex-col"
+              >
                 {message.user.message && (
                   <div className="relative max-w-[500px] flex items-center self-end bg-white msg-bubble-right px-4 pt-4 pb-6 mb-2">
                     <div

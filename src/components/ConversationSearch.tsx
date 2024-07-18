@@ -20,7 +20,6 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
   }, []);
 
   const fetchConversations = async () => {
-    console.log(search);
     const res: any = await makeRequest(
       `/conversations/search/${search}?page=${page || 1}&size=${20}`,
       "GET"
@@ -29,6 +28,7 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
     setPage(page + 1);
     setConversations((prevData: any) => {
       if (!prevData?.data) {
+        setSelectedConvo(0);
         return res;
       } else {
         return {
@@ -62,7 +62,7 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
 
               return (
                 <div
-                  key={conv.id + index}
+                  key={conv.message_pair_id}
                   className={`flex justify-between items-center radius-1 w-full cursor-pointer hover:bg-gray-100 p-4 ${
                     selectedConvo === index && "bg-gray"
                   }`}
@@ -94,7 +94,10 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
             )}
           </aside>
           <main className="main flex flex-col flex-grow bg-gray -ml-64 sm:ml-0 transition-all duration-150 ease-in">
-            <Conversation id={conversations.data[selectedConvo]?.id} />
+            <Conversation
+              id={conversations.data[selectedConvo]?.id}
+              scrollToId={conversations.data[selectedConvo]?.message_pair_id}
+            />
           </main>
         </div>
       )}
