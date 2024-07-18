@@ -38,11 +38,14 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
         status !== "loading" &&
         session?.user && (
           <div className="flex flex-row min-h-full pt-[80px]">
-            <Sidebar sidebarOpen={sidebarOpen} />
+            <Sidebar
+              sidebarOpen={sidebarOpen}
+              onOutsideClick={() => setSidebarOpen(false)}
+            />
 
             <main className="main flex flex-col flex-grow bg-gray overflow-auto md:ml-64">
               <button
-                className="md:hidden p-4 focus:outline-none"
+                className="md:hidden p-4 focus:outline-none max-w-[80px]"
                 onClick={toggleSidebar}
               >
                 <svg

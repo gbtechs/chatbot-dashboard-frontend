@@ -4,15 +4,17 @@ import { SessionType } from "@/types";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   sidebarOpen: boolean;
+  onOutsideClick: () => void;
 }
 
-export const Sidebar: React.FC<Props> = ({ sidebarOpen }) => {
+export const Sidebar: React.FC<Props> = ({ sidebarOpen, onOutsideClick }) => {
   const { data: session } = useSession() as SessionType;
   const pathname = usePathname();
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
     { href: "/", label: "Dashboard", icon: "/icons/dashboard.svg" },
@@ -37,9 +39,26 @@ export const Sidebar: React.FC<Props> = ({ sidebarOpen }) => {
       : pathname.startsWith(path) && path !== "/";
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        onOutsideClick();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onOutsideClick]);
+
   return (
     session?.user && (
       <aside
+        ref={sidebarRef}
         className={`sidebar fixed top-[80px] left-0 h-full w-64 border-1 md:shadow p-4 transform ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 transition-transform duration-150 ease-in-out z-50 bg-white`}
