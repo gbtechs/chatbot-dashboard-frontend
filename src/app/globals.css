@@ -104,6 +104,9 @@ h5 {
 .msg-highlight .msg-bubble-right {
   background-color: rgb(255, 255, 205);
 }
+.text-highlight {
+  background-color: rgb(255, 231, 46);
+}
 
 .c-gray {
   color: rgba(123, 146, 157, 1);

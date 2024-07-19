@@ -167,6 +167,14 @@ export const linkifyString = (text: string) => {
   return spanTaggedText;
 };
 
+export const highlightText = (text: string, search: string) => {
+  const regex = new RegExp(search, "gi");
+  return text.replace(
+    regex,
+    (match) => `<span class="text-highlight">${match}</span>`
+  );
+};
+
 export const toQueryString = (params: Record<string, any>): string => {
   return Object.keys(params)
     .map(

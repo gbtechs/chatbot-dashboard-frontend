@@ -104,6 +104,7 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
             <Conversation
               id={conversations.data[selectedConvo]?.id}
               scrollToId={conversations.data[selectedConvo]?.message_pair_id}
+              search={search}
             />
           </main>
         </div>

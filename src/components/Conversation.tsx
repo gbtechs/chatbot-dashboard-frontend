@@ -1,16 +1,17 @@
 "use client";
 
 import useApiRequest from "@/hooks/useApiRequest";
-import { format24HourTime, formatDate, linkifyString } from "@/utils";
+import { format24HourTime, highlightText, linkifyString } from "@/utils";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
 
 interface Props {
   id: string;
   scrollToId?: string;
+  search?: string;
 }
 
-export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
+export const Conversation: React.FC<Props> = ({ id, scrollToId, search }) => {
   const [messages, setMessages] = useState<any>({});
   const [page, setPage] = useState<number>(1);
   const { loading, error, makeRequest } = useApiRequest();
@@ -80,16 +81,16 @@ export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
                 ref={(el: any) =>
                   (messageRefs.current[message.message_pair_id] = el)
                 }
-                className={`flex flex-col${
-                  message.message_pair_id === scrollToId ? " msg-highlight" : ""
-                }`}
+                className={`flex flex-col`}
               >
                 {message.user.message && (
                   <div className="relative max-w-[500px] flex items-center self-end bg-white msg-bubble-right px-4 pt-4 pb-6 mb-2">
                     <div
                       className="font-primary-1"
                       dangerouslySetInnerHTML={{
-                        __html: linkifyString(message.user.message),
+                        __html: search
+                          ? highlightText(message.user.message, search)
+                          : linkifyString(message.user.message),
                       }}
                     ></div>
                     <span className="absolute bottom-1 right-2 font-secondary">
@@ -107,9 +108,14 @@ export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
                     <div className="relative max-w-[500px] bg-white msg-bubble-left font-primary-1 px-4 pt-4 pb-6">
                       <span
                         dangerouslySetInnerHTML={{
-                          __html: linkifyString(
-                            message.ai.message.split("@@SPLIT@@")[0]
-                          ),
+                          __html: search
+                            ? highlightText(
+                                message.ai.message.split("@@SPLIT@@")[0],
+                                search
+                              )
+                            : linkifyString(
+                                message.ai.message.split("@@SPLIT@@")[0]
+                              ),
                         }}
                       ></span>
                       <span className="absolute bottom-1 right-4 font-secondary">
@@ -130,7 +136,9 @@ export const Conversation: React.FC<Props> = ({ id, scrollToId }) => {
                           last ? "bubble-last" : "bubble-mid"
                         }`}
                         dangerouslySetInnerHTML={{
-                          __html: linkifyString(msg),
+                          __html: search
+                            ? highlightText(msg, search)
+                            : linkifyString(msg),
                         }}
                       ></div>
                     );
