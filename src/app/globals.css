@@ -176,9 +176,3 @@ li.active h5, li.active svg {
 body {
   scrollbar-width: none;
 }
-
-canvas{
-  width: 100% !important;
-  height: 100% !important;
-
-}
