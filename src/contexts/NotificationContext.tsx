@@ -61,20 +61,11 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       {children}
       {notification && (
         <div
-          className={`fixed px-4 py-2 shadow-md rounded-md text-slate-100 text-white notification ${
-            notification.type === "success" ? "bg-green-500" : "bg-red-500"
+          className={`fixed top-[10px] left-1/2 transform -translate-x-1/2 flex justify-center items-center ml-32 px-8 py-2 shadow-md rounded-[50px] text-slate-100 text-white notification ${
+            notification.type === "success" ? "bg-green" : "bg-red-500"
           }`}
         >
-          <div className="text-center">
-            <h2 className="text-xl text-white">
-              {notification.type.toLocaleUpperCase()}
-            </h2>
-            <p>{notification.message}</p>
-          </div>
-          {/* <XCircleIcon
-            className="h-6 w-6 cursor-pointer"
-            // onClick={notificationCtx.hideNotification}
-          /> */}
+          <h3>{notification.message}</h3>
         </div>
       )}
     </NotificationContext.Provider>

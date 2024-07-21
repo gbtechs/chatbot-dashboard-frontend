@@ -70,7 +70,7 @@ export const ConversationSearch: React.FC<Props> = ({ search }) => {
               return (
                 <div
                   key={conv.message_pair_id}
-                  className={`flex justify-between items-center radius-1 w-full cursor-pointer hover:bg-gray-100 p-4 ${
+                  className={`flex justify-between items-center radius-1 w-full cursor-pointer hover:bg-gray-100 mb-[5px] p-4 ${
                     selectedConvo === index && "bg-gray"
                   }`}
                   onClick={() => onConversationClick(index)}

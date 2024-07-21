@@ -28,7 +28,7 @@ export default function DragAndDrop() {
         },
       });
 
-      notify("File(s) uploaded successfully", "success");
+      notify("Your file(s) have been uploaded successfully!", "success");
       router.push(`/sources`);
     } catch (error) {}
   }

@@ -20,7 +20,7 @@ export const ConversationListItem: React.FC<Props> = ({
   return (
     <div
       key={id}
-      className={`flex justify-between items-center radius-1 w-full cursor-pointer hover:bg-gray-100 p-4 ${
+      className={`flex justify-between items-center radius-1 w-full cursor-pointer hover:bg-gray-100 mb-[5px] p-4 ${
         selected && "bg-gray"
       }`}
       onClick={onSelect}

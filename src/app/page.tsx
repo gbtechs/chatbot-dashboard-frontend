@@ -101,7 +101,7 @@ export default function Home() {
           title="Conversations / Date"
           desc="Data is sorted based on the date when the conversations were created."
         >
-          <div className="h-[450px] bg-white rounded mt-3">
+          <div className="w-full aspect-w-2 aspect-h-1 bg-white rounded mt-3">
             {chartData1 && <Line data={chartData1} />}
           </div>
         </Card>
@@ -112,7 +112,7 @@ export default function Home() {
           title="Conversations / Time"
           desc="Data is sorted based on the time when the conversations were created."
         >
-          <div className="h-[450px] bg-white rounded mt-3">
+          <div className="w-full aspect-w-2 aspect-h-1 bg-white rounded mt-3">
             {chartData2 && <Line data={chartData2} />}
           </div>
         </Card>

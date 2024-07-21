@@ -7,6 +7,7 @@ import { Tooltip } from "./Tooltip";
 import { ColorPicker } from "./ColorPicker";
 import { useNotification } from "@/contexts/NotificationContext";
 import { TrashIcon } from "@heroicons/react/24/outline";
+import { AxiosError } from "axios";
 
 interface Props {
   onPreferencesUpdated: (preferences: any) => void;
@@ -48,6 +49,7 @@ export const ChatbotPreferences: React.FC<Props> = ({
     font: "inter",
     initial_message: "Hi! How can I help you?",
     buttons: [],
+    type: "current",
   };
 
   useEffect(() => {
@@ -67,12 +69,17 @@ export const ChatbotPreferences: React.FC<Props> = ({
       setPreferences(data);
       onPreferencesUpdated(data);
       // throw new Error();
-    } catch (error) {
-      !!defaultPreferences.shadow && setShowShadow(true);
-      !!defaultPreferences.stroke && setShowStroke(true);
-      savePreferences(defaultPreferences);
-      setPreferences(defaultPreferences);
-      onPreferencesUpdated(defaultPreferences);
+    } catch (error: any) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response?.status === 404) {
+        !!defaultPreferences.shadow && setShowShadow(true);
+        !!defaultPreferences.stroke && setShowStroke(true);
+        savePreferences(defaultPreferences);
+        savePreferences({ ...defaultPreferences, type: "default" });
+        setPreferences(defaultPreferences);
+        onPreferencesUpdated(defaultPreferences);
+      }
     }
   };
 
@@ -169,22 +176,29 @@ export const ChatbotPreferences: React.FC<Props> = ({
 
   const savePreferences = async (body: any) => {
     try {
-      await makeRequest(`/appearance`, "POST", body);
+      const data = await makeRequest(`/appearance`, "POST", body);
 
       notify("Preferences saved successfully", "success");
       onPreferencesUpdated({ ...preferences, ...body });
 
       if (logoInputRef?.current) logoInputRef.current.value = "";
       if (iconInputRef?.current) iconInputRef.current.value = "";
+
+      return data;
     } catch (error) {
       notify("Failed to save preferences", "error");
     }
   };
 
+  const setAsDefault = async () => {
+    savePreferences({ ...preferences, type: "default" });
+  };
+
   const resetToDefault = async () => {
-    savePreferences(defaultPreferences);
-    setPreferences(defaultPreferences);
-    onPreferencesUpdated(defaultPreferences);
+    const data: any = await makeRequest("/appearance?type=default", "GET");
+    savePreferences(data);
+    setPreferences(data);
+    onPreferencesUpdated(data);
   };
 
   const showTooltip = (key: string) => {
@@ -548,7 +562,13 @@ export const ChatbotPreferences: React.FC<Props> = ({
 
           <div className="border-1 my-4"></div>
 
-          <div className="flex justify-center align-center">
+          <div className="flex justify-between align-center">
+            <button
+              className="bg-orange text-white rounded-full px-4 py-2"
+              onClick={setAsDefault}
+            >
+              Set changes as default
+            </button>
             <button
               className="bg-orange text-white rounded-full px-4 py-2"
               onClick={resetToDefault}
