@@ -562,15 +562,15 @@ export const ChatbotPreferences: React.FC<Props> = ({
 
           <div className="border-1 my-4"></div>
 
-          <div className="flex justify-between align-center">
+          <div className="flex align-center">
             <button
-              className="bg-orange text-white rounded-full px-4 py-2"
+              className="bg-orange text-white rounded-full px-8 py-2 mr-8"
               onClick={setAsDefault}
             >
-              Set changes as default
+              <h3>Set changes as default</h3>
             </button>
             <button
-              className="bg-orange text-white rounded-full px-4 py-2"
+              className="font-primary-1 bg-white border-dark rounded-full px-8 py-2"
               onClick={resetToDefault}
             >
               Reset to default

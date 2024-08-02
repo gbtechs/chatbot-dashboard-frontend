@@ -39,15 +39,15 @@ const Pagination: React.FC<PaginationProps> = ({
       {generatePageNumbers().map((pageNumber, index) => (
         <button
           key={index}
-          className={`px-3 py-1 border rounded ${
-            page === pageNumber ? "bg-orange text-white" : ""
+          className={`w-[40px] h-[40px] border-1 rounded-full ${
+            page === pageNumber ? "bg-orange text-white" : "text-dark"
           }`}
           onClick={() =>
             typeof pageNumber === "number" && onPageChange(pageNumber)
           }
           disabled={typeof pageNumber !== "number"}
         >
-          {pageNumber}
+          <h3>{pageNumber}</h3>
         </button>
       ))}
     </div>

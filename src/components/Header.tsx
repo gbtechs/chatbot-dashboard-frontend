@@ -16,12 +16,12 @@ export const Header: React.FC = () => {
   const path = usePathname();
   const { data: session } = useSession() as SessionType;
   const [showProfileBox, setShowProfileBox] = useState<boolean>(false);
-  const profileBoxRef = useRef<HTMLDivElement>(null);
+  const profileDivRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
-      profileBoxRef.current &&
-      !profileBoxRef.current.contains(event.target as Node)
+      profileDivRef.current &&
+      !profileDivRef.current.contains(event.target as Node)
     ) {
       setShowProfileBox(false);
     }
@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
         ></img>
       </div>
       {session?.user && (
-        <div className="relative">
+        <div className="relative" ref={profileDivRef}>
           <img
             src="/icons/user-circle.svg"
             alt="user"
@@ -52,10 +52,7 @@ export const Header: React.FC = () => {
             onClick={() => setShowProfileBox(!showProfileBox)}
           ></img>
           {showProfileBox && (
-            <div
-              ref={profileBoxRef}
-              className="absolute top-8 right-0 min-w-[190px] flex flex-col border-1 rounded-[15px] bg-white py-2"
-            >
+            <div className="absolute top-8 right-0 min-w-[190px] flex flex-col border-1 rounded-[15px] bg-white py-2">
               <div className="flex item-center border-b label-1 w-full py-2 px-3">
                 <UserIcon className="h-[20px] w-[20px] mr-2"></UserIcon>
                 <span>{session?.user?.client?.contact_name}</span>

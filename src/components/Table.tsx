@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  ArrowsUpDownIcon,
-  EllipsisHorizontalIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline"; // Double arrow icon
+import { ArrowsUpDownIcon, TrashIcon } from "@heroicons/react/24/outline"; // Double arrow icon
 import { formatDate } from "@/utils";
 import Pagination from "./Pagination";
 
@@ -137,7 +133,11 @@ export const Table: React.FC<Props> = ({
               ))}
               {actionsCol && (
                 <th scope="col" className="font-primary px-4 py-2">
-                  <EllipsisHorizontalIcon className="h-6 w-6 m-auto" />
+                  <img
+                    className="h-6 w-6 m-auto"
+                    src="./icons/menu-dots.svg"
+                    alt="..."
+                  />
                 </th>
               )}
             </tr>
@@ -191,7 +191,11 @@ export const Table: React.FC<Props> = ({
                         className="hover:underline"
                         onClick={() => onDelete && onDelete(item)}
                       >
-                        <TrashIcon className="h-4 w-4"></TrashIcon>
+                        <img
+                          className="h-4 w-4"
+                          src="./icons/trashcan.svg"
+                          alt="delete"
+                        />
                       </button>
                     )}
                   </td>

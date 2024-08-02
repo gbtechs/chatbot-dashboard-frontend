@@ -67,7 +67,7 @@ export default function ConversationHistory() {
             ></NoDataCard>
           </div>
         )
-      ) : (
+      ) : !showModal ? (
         <div className="flex">
           <aside className="sidebar w-64 h-main overflow-y-auto border-1 bg-white sm:shadow transform -translate-x-full sm:translate-x-0 transition-transform duration-150 ease-in p-4">
             <div className="w-full relative mb-1">
@@ -116,10 +116,12 @@ export default function ConversationHistory() {
             <Conversation id={selectedConvo} />
           </main>
         </div>
+      ) : (
+        <ConversationSearch
+          search={search}
+          closeSearch={() => setShowModal(false)}
+        />
       )}
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-        <ConversationSearch search={search} />
-      </Modal>
     </div>
   );
 }
