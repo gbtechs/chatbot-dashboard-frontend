@@ -46,7 +46,7 @@ export const ChatbotPreferences: React.FC<Props> = ({
     shadow: "#b3c1c8",
     stroke: "#dde2e4",
     corner_radius: 30,
-    font: "inter",
+    font: "poppins",
     initial_message: "Hi! How can I help you?",
     buttons: [],
     type: "current",
@@ -196,8 +196,8 @@ export const ChatbotPreferences: React.FC<Props> = ({
 
   const resetToDefault = async () => {
     const data: any = await makeRequest("/appearance?type=default", "GET");
-    savePreferences(data);
-    setPreferences(data);
+    savePreferences({ ...preferences, type: "current" });
+    setPreferences({ ...preferences, type: "current" });
     onPreferencesUpdated(data);
   };
 
