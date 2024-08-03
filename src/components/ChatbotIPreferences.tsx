@@ -195,9 +195,9 @@ export const ChatbotPreferences: React.FC<Props> = ({
   };
 
   const resetToDefault = async () => {
-    const data: any = await makeRequest("/appearance?type=default", "GET");
-    savePreferences({ ...preferences, type: "current" });
-    setPreferences({ ...preferences, type: "current" });
+    const data: any = await makeRequest("/appearance/?type=default", "GET");
+    savePreferences({ ...data, type: "current" });
+    setPreferences({ ...data, type: "current" });
     onPreferencesUpdated(data);
   };
 
