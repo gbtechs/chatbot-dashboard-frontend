@@ -23,16 +23,22 @@ export default function LoginPage() {
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();
 
-    const data = await signIn("credentials", {
+    signIn("credentials", {
       username: email,
       password: password,
-      redirect: true,
-      callbackUrl: "/",
+      redirect: false,
+    }).then((data) => {
+      if (!data) {
+        notify("Something went wrong", "error");
+      } else if (data.ok) {
+        router.push("/");
+      } else {
+        console.error(data.error);
+        const msg =
+          data.status === 401 ? "Incorrect email or password" : "Login failed";
+        notify(msg, "error");
+      }
     });
-
-    if (!data) {
-      // notify("Login failed!", "error");
-    }
   }
 
   const togglePasswordVisibility = () => {

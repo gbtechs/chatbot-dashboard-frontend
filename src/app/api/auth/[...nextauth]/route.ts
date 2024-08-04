@@ -1,3 +1,4 @@
+import axios from "axios";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -13,20 +14,22 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials, req) {
         const { username, password } = credentials as any;
 
-        const res = await fetch(`${process.env.API_URL}/login`, {
-          method: "POST",
-          body: JSON.stringify({ email: username, password }),
-          headers: { "Content-Type": "application/json" },
-        });
+        try {
+          const res = await axios.post(
+            `${process.env.API_URL || "http://157.230.96.120:8000/api"}/login`,
+            { email: username, password },
+            {
+              headers: { "Content-Type": "application/json" },
+            }
+          );
 
-        const user = await res.json();
+          const user = await res.data;
 
-        // If no error and we have user data, return it
-        if (res.ok && user) {
           return user;
+        } catch (error: any) {
+          console.error(error.response.data.detail);
+          throw error;
         }
-        // Return null if user data could not be retrieved
-        return null;
       },
     }),
   ],

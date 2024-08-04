@@ -36,11 +36,8 @@ export default function Sources() {
     );
     result.data.forEach((s: any) => (s.size = formatFileSize(s.size)));
 
+    // result.data = [];
     setSources(result);
-
-    if (!result.data.length) {
-      router.push("/sources/create");
-    }
   };
 
   const pageChange = (page: number) => {
@@ -49,7 +46,7 @@ export default function Sources() {
 
   useEffect(() => {
     if (sources && sources.data && !sources.data.length) {
-      router.push("/sources/create");
+      router.push("/sources/create?ref=nosource");
     }
   }, [sources]);
 
@@ -124,10 +121,12 @@ export default function Sources() {
             src="./trashcan.svg"
             alt="delete"
           ></img>
-          <h2>Are you sure you want to</h2>
-          <h2>delete the file?</h2>
+          <h2>
+            Are you sure you want to <br />
+            delete the file?
+          </h2>
           <h5 className="mt-4">
-            By deleting “Chatbot Scenario” from resources,
+            By deleting “{itemTodel?.filename || "this file"}” from resources,
           </h5>
           <h5>your chatbot no longer access to this file and</h5>
           <h5>forgets all the information.</h5>
