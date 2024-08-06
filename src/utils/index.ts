@@ -115,6 +115,17 @@ export const formatChartData = (data: any[], color: string) => {
   return formattedData;
 };
 
+export const formatDataForRecharts = (data: { [key: string]: number }[]) => {
+  return data.map((entry) => {
+    const key = Object.keys(entry)[0];
+    const value = entry[key];
+    return {
+      date: key.length === 10 ? formatchartDate(key) : parseInt(key),
+      value,
+    };
+  });
+};
+
 export const formatHour = (hour: number) => {
   if (hour < 0 || hour > 23) {
     throw new Error("Hour must be between 0 and 23");

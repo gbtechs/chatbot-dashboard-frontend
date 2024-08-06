@@ -13,7 +13,8 @@ import {
 import useApiRequest from "@/hooks/useApiRequest";
 import { useEffect, useState } from "react";
 import { Dropdown } from "@/components/Dropdown";
-import { formatChartData, formatSeconds } from "@/utils";
+import { formatChartData, formatDataForRecharts, formatSeconds } from "@/utils";
+import CustomLineChart from "@/components/LineChart";
 
 // Register ChartJS components using ChartJS.register
 ChartJS.register(
@@ -50,7 +51,8 @@ export default function Home() {
       "GET"
     );
 
-    const data = formatChartData(res, "#FB8500");
+    // const data = formatChartData(res, "#FB8500");
+    const data = formatDataForRecharts(res);
     setChartData1(data);
   };
 
@@ -101,8 +103,11 @@ export default function Home() {
           title="Conversations / Date"
           desc="Data is sorted based on the date when the conversations were created."
         >
-          <div className="w-full aspect-w-2 aspect-h-1 bg-white rounded mt-3">
-            {chartData1 && <Line data={chartData1} />}
+          <div className="w-full aspect-w-3 aspect-h-2 bg-white rounded mt-3">
+            {/* {chartData1 && <Line data={chartData1} />} */}
+            {chartData1 && (
+              <CustomLineChart data={chartData1} stroke="#FB8500" />
+            )}
           </div>
         </Card>
       </div>
@@ -112,7 +117,7 @@ export default function Home() {
           title="Conversations / Time"
           desc="Data is sorted based on the time when the conversations were created."
         >
-          <div className="w-full aspect-w-2 aspect-h-1 bg-white rounded mt-3">
+          <div className="w-full aspect-w-5 aspect-h-1 bg-white rounded mt-3">
             {chartData2 && <Line data={chartData2} />}
           </div>
         </Card>
