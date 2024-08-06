@@ -117,7 +117,7 @@ export default function Sources() {
       >
         <div className="text-center px-4">
           <img
-            className="w-16 h-16 fill-current text-red-500 mx-auto mt-2 mb-4"
+            className="w-16 h-16 fill-current text-red-500 mx-auto mt-3 mb-6"
             src="./trashcan.svg"
             alt="delete"
           ></img>
@@ -130,19 +130,21 @@ export default function Sources() {
           </h5>
           <h5>your chatbot no longer access to this file and</h5>
           <h5>forgets all the information.</h5>
-          <div className="flex justify-between mt-6">
-            <button
-              className="bg-orange text-white rounded-full px-12 py-2"
-              onClick={handleDelete}
-            >
-              <h3>Delete</h3>
-            </button>
-            <button
-              className="font-primary-1 bg-white border-dark rounded-full px-12 py-2"
-              onClick={() => setShowDeleteDialog(false)}
-            >
-              Cancel
-            </button>
+          <div className="flex items-center justify-around mt-6">
+            <div>
+              <button
+                className="bg-orange text-white rounded-full px-12 py-2 mr-3"
+                onClick={handleDelete}
+              >
+                <h3>Delete</h3>
+              </button>
+              <button
+                className="font-primary-1 bg-white border-dark rounded-full px-12 py-2 ml-3"
+                onClick={() => setShowDeleteDialog(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </Dialog>

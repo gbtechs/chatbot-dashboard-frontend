@@ -10,10 +10,10 @@ const Dialog: React.FC<Props> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-[153px] left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-center ml-32">
-      <div className="relative mx-auto bg-white border-1 radius-1 p-4 md:p-6 lg:p-8">
-        {/* <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75"> */}
-        {/* <div className="relative max-w-5xl mx-auto bg-white rounded-lg shadow-lg p-4 md:p-6 lg:p-8"> */}
+    // <div className="fixed top-[153px] left-1/2 transform -translate-x-1/2 z-50 flex items-center justify-center ml-32">
+    //   <div className="relative mx-auto bg-white p-4 md:p-6 lg:p-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75">
+      <div className="relative max-w-5xl mx-auto bg-white border-1 radius-1 shadow-lg p-4 md:p-6 lg:p-8">
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
           onClick={onClose}
