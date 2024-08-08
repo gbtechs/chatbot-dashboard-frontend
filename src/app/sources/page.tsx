@@ -132,7 +132,7 @@ export default function Sources() {
           setShowDeleteDialog(false);
         }}
       >
-        <div className="text-center px-4">
+        <div className="max-w-[450px] text-center px-4">
           <img
             className="w-16 h-16 fill-current text-red-500 mx-auto mt-3 mb-6"
             src="./trashcan.svg"

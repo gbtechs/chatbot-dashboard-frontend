@@ -91,7 +91,7 @@ export const ConversationSearch: React.FC<Props> = ({
                 placeholder="Search"
                 className="w-full rounded-full input-text text-sm py-2 px-3"
                 onChange={(e) => setInput(e.target.value)}
-                value={input || query || search}
+                value={input}
                 onKeyDown={(event) => event.key === "Enter" && onSearch()}
               />
               <XMarkIcon

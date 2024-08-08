@@ -171,7 +171,7 @@ export const Table: React.FC<Props> = ({
                     ? formatDate(value)
                     : value;
                   return (
-                    <td key={colIndex} className="p-4">
+                    <td key={colIndex} className="p-4 max-w-[300px] truncate">
                       <h5
                         className={`${
                           !showCheckbox && colIndex === 0 && "pl-4"

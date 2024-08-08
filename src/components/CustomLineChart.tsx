@@ -34,7 +34,7 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, stroke }) => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="key" />
-        <YAxis width={30} />
+        <YAxis width={42} />
         <Tooltip />
         <Line
           type="monotone"
