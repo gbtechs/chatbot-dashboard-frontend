@@ -1,11 +1,12 @@
 "use client";
 
+import { Card } from "@/components/Card";
 import Dialog from "@/components/Dialog";
+import DragAndDrop from "@/components/DragAndDrop";
 import { Table } from "@/components/Table";
 import { useNotification } from "@/contexts/NotificationContext";
 import useApiRequest from "@/hooks/useApiRequest";
 import { formatFileSize } from "@/utils";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -13,6 +14,7 @@ export default function Sources() {
   const { loading, error, makeRequest } = useApiRequest();
   const [search, setSearch] = useState<string>("");
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
+  const [showAddDialog, setShowAddDialog] = useState<boolean>(false);
   const [sources, setSources] = useState<any>({});
   const [itemTodel, setItemToDel] = useState<any>(null);
   const router = useRouter();
@@ -67,6 +69,11 @@ export default function Sources() {
     }
   };
 
+  const handleSave = async () => {
+    await fetchSources();
+    setShowAddDialog(false);
+  };
+
   return (
     <div className="main-content flex flex-col flex-grow p-4">
       {error ? (
@@ -85,7 +92,7 @@ export default function Sources() {
               <button
                 className="w-[200px] h-[40px] text-center text-white rounded-full bg-orange"
                 type="button"
-                onClick={() => router.push("/sources/create")}
+                onClick={() => setShowAddDialog(true)}
               >
                 <h3>Add sources</h3>
               </button>
@@ -109,6 +116,16 @@ export default function Sources() {
           </>
         )
       )}
+
+      <Dialog
+        isOpen={showAddDialog}
+        onClose={() => {
+          setShowAddDialog(false);
+        }}
+      >
+        <DragAndDrop title="Add new sources" onFileSave={handleSave} />
+      </Dialog>
+
       <Dialog
         isOpen={showDeleteDialog}
         onClose={() => {

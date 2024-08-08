@@ -56,6 +56,7 @@ export default function Leads() {
             page={leads.page}
             size={leads.size}
             count={leads.count}
+            roundedBottom={true}
             onPageChange={pageChange}
           />
         </>
