@@ -1,6 +1,5 @@
 "use client";
 
-import { Card } from "@/components/Card";
 import Dialog from "@/components/Dialog";
 import DragAndDrop from "@/components/DragAndDrop";
 import { Table } from "@/components/Table";
@@ -142,21 +141,25 @@ export default function Sources() {
             Are you sure you want to <br />
             delete the file?
           </h2>
-          <h5 className="mt-4">
-            By deleting “{itemTodel?.filename || "this file"}” from resources,
-          </h5>
-          <h5>your chatbot no longer access to this file and</h5>
-          <h5>forgets all the information.</h5>
+          <div className="max-w-[350px]">
+            <h5 className="mt-4">
+              By deleting “{itemTodel?.filename || "this file"}” from resources,
+              your chatbot no longer access to this file and forgets all the
+              information.
+            </h5>
+            {/* <h5></h5> */}
+            {/* <h5></h5> */}
+          </div>
           <div className="flex items-center justify-around mt-6">
             <div>
               <button
-                className="bg-orange text-white rounded-full px-12 py-2 mr-3"
+                className="bg-orange text-white rounded-full px-12 py-2 mr-4"
                 onClick={handleDelete}
               >
                 <h3>Delete</h3>
               </button>
               <button
-                className="font-primary-1 bg-white border-dark rounded-full px-12 py-2 ml-3"
+                className="font-primary-1 bg-white border-dark rounded-full px-12 py-2 ml-4"
                 onClick={() => setShowDeleteDialog(false)}
               >
                 Cancel
