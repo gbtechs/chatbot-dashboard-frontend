@@ -21,12 +21,14 @@ export const AddSources: React.FC = () => {
           <h2>Add new sources</h2>
           <h5>Add new sources to train your chatbot</h5>
         </div>
-        <button
-          className="font-primary-1 h-[40px] bg-white border-dark rounded-full px-8"
-          onClick={onClose}
-        >
-          Back to sources
-        </button>
+        {ref !== "nosource" && (
+          <button
+            className="font-primary-1 h-[40px] bg-white border-dark rounded-full px-8"
+            onClick={onClose}
+          >
+            Back to sources
+          </button>
+        )}
       </div>
 
       <div className="flex flex-col flex-grow relative mt-4">
@@ -41,7 +43,7 @@ export const AddSources: React.FC = () => {
         )}
 
         <Card hFull={true}>
-          <DragAndDrop />
+          <DragAndDrop onFileSave={() => router.push(`/sources`)} />
         </Card>
       </div>
     </div>

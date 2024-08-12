@@ -119,8 +119,9 @@ export const formatDataForRecharts = (data: { [key: string]: number }[]) => {
   return data.map((entry) => {
     const key = Object.keys(entry)[0];
     const value = entry[key];
+
     return {
-      date: key.length === 10 ? formatchartDate(key) : parseInt(key),
+      key: key.length === 10 ? formatchartDate(key) : formatHour(parseInt(key)),
       value,
     };
   });

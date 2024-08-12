@@ -15,6 +15,7 @@ interface Props {
   page?: number;
   size?: number;
   count?: number;
+  roundedBottom?: true;
   onEdit?: (item: any) => void;
   onDelete?: (item: any) => void;
   onPageChange?: (item: any) => void;
@@ -32,6 +33,7 @@ export const Table: React.FC<Props> = ({
   page = 1,
   size = 20,
   count = 0,
+  roundedBottom = false,
   onEdit,
   onDelete,
   onPageChange,
@@ -92,7 +94,11 @@ export const Table: React.FC<Props> = ({
 
   return (
     <>
-      <div className="relative overflow-x-auto border-1 radius-t-1">
+      <div
+        className={`relative overflow-x-auto border-1 ${
+          roundedBottom ? "radius-1" : "radius-t-1"
+        }`}
+      >
         <table className="w-full text-left">
           <thead className="bg-gray border-b-1">
             <tr>
@@ -165,7 +171,7 @@ export const Table: React.FC<Props> = ({
                     ? formatDate(value)
                     : value;
                   return (
-                    <td key={colIndex} className="p-4">
+                    <td key={colIndex} className="p-4 max-w-[300px] truncate">
                       <h5
                         className={`${
                           !showCheckbox && colIndex === 0 && "pl-4"

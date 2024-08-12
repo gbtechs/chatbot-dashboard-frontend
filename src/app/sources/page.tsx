@@ -1,11 +1,11 @@
 "use client";
 
 import Dialog from "@/components/Dialog";
+import DragAndDrop from "@/components/DragAndDrop";
 import { Table } from "@/components/Table";
 import { useNotification } from "@/contexts/NotificationContext";
 import useApiRequest from "@/hooks/useApiRequest";
 import { formatFileSize } from "@/utils";
-import { TrashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -13,6 +13,7 @@ export default function Sources() {
   const { loading, error, makeRequest } = useApiRequest();
   const [search, setSearch] = useState<string>("");
   const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
+  const [showAddDialog, setShowAddDialog] = useState<boolean>(false);
   const [sources, setSources] = useState<any>({});
   const [itemTodel, setItemToDel] = useState<any>(null);
   const router = useRouter();
@@ -67,6 +68,11 @@ export default function Sources() {
     }
   };
 
+  const handleSave = async () => {
+    await fetchSources();
+    setShowAddDialog(false);
+  };
+
   return (
     <div className="main-content flex flex-col flex-grow p-4">
       {error ? (
@@ -85,7 +91,7 @@ export default function Sources() {
               <button
                 className="w-[200px] h-[40px] text-center text-white rounded-full bg-orange"
                 type="button"
-                onClick={() => router.push("/sources/create")}
+                onClick={() => setShowAddDialog(true)}
               >
                 <h3>Add sources</h3>
               </button>
@@ -109,15 +115,25 @@ export default function Sources() {
           </>
         )
       )}
+
+      <Dialog
+        isOpen={showAddDialog}
+        onClose={() => {
+          setShowAddDialog(false);
+        }}
+      >
+        <DragAndDrop title="Add new sources" onFileSave={handleSave} />
+      </Dialog>
+
       <Dialog
         isOpen={showDeleteDialog}
         onClose={() => {
           setShowDeleteDialog(false);
         }}
       >
-        <div className="text-center px-4">
+        <div className="max-w-[450px] text-center px-4">
           <img
-            className="w-16 h-16 fill-current text-red-500 mx-auto mt-2 mb-4"
+            className="w-16 h-16 fill-current text-red-500 mx-auto mt-3 mb-6"
             src="./trashcan.svg"
             alt="delete"
           ></img>
@@ -125,24 +141,30 @@ export default function Sources() {
             Are you sure you want to <br />
             delete the file?
           </h2>
-          <h5 className="mt-4">
-            By deleting “{itemTodel?.filename || "this file"}” from resources,
-          </h5>
-          <h5>your chatbot no longer access to this file and</h5>
-          <h5>forgets all the information.</h5>
-          <div className="flex justify-between mt-6">
-            <button
-              className="bg-orange text-white rounded-full px-12 py-2"
-              onClick={handleDelete}
-            >
-              <h3>Delete</h3>
-            </button>
-            <button
-              className="font-primary-1 bg-white border-dark rounded-full px-12 py-2"
-              onClick={() => setShowDeleteDialog(false)}
-            >
-              Cancel
-            </button>
+          <div className="max-w-[350px]">
+            <h5 className="mt-4">
+              By deleting “{itemTodel?.filename || "this file"}” from resources,
+              your chatbot no longer access to this file and forgets all the
+              information.
+            </h5>
+            {/* <h5></h5> */}
+            {/* <h5></h5> */}
+          </div>
+          <div className="flex items-center justify-around mt-6">
+            <div>
+              <button
+                className="bg-orange text-white rounded-full px-12 py-2 mr-4"
+                onClick={handleDelete}
+              >
+                <h3>Delete</h3>
+              </button>
+              <button
+                className="font-primary-1 bg-white border-dark rounded-full px-12 py-2 ml-4"
+                onClick={() => setShowDeleteDialog(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </Dialog>
