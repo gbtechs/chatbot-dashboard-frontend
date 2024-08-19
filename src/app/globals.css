@@ -95,6 +95,10 @@ h5 {
   border: 1px solid rgba(2, 48, 71, 1)
 }
 
+.input-text::placeholder {
+  color: rgba(123, 146, 157, 1);
+}
+
 .msg-bubble-left {
   min-height: 60px;
   border-radius: 30px 30px 30px 0px;
