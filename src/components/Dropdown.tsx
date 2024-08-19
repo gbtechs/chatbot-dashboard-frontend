@@ -4,15 +4,21 @@ interface Props {
   options: any[];
   onSelect: (option: any) => void;
   defaultValue?: any;
+  classes?: string;
+  placeholder?: string;
 }
 
 export const Dropdown: React.FC<Props> = ({
   options,
   onSelect,
   defaultValue,
+  classes,
+  placeholder,
 }) => {
   const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState<any>(defaultValue || options[0]);
+  const [selected, setSelected] = useState<any>(
+    placeholder ? "" : defaultValue || options[0]
+  );
 
   useEffect(() => {
     if (defaultValue) {
@@ -24,14 +30,22 @@ export const Dropdown: React.FC<Props> = ({
   return (
     <div className="relative">
       <button
-        className="w-[150px] h-[40px] flex justify-between items-center rounded-full border-1 radius-[15px] bg-white font-primary py-4 px-6"
+        className={`w-[150px] h-[40px] flex justify-between items-center rounded-full border-1 radius-[15px] bg-white font-primary ${
+          classes || "py-4 px-6"
+        }`}
         onClick={() => setShow(!show)}
       >
-        <span>{selected.key}</span>
+        <span className={selected.key ? "" : "font-primary-1 c-gray"}>
+          {selected.key || placeholder || ""}
+        </span>
         <img src="/icons/chevron-down.svg" alt="down" />
       </button>
       {show && (
-        <div className="w-[150px] absolute top-[45px] z-10 bg-white border-1 radius-1 font-primary-1 p-2">
+        <div
+          className={`w-[150px] absolute top-[45px] z-10 bg-white border-1 radius-1 font-primary-1 p-2 ${
+            classes && classes.includes("w-full") ? "w-full" : ""
+          }`}
+        >
           {options.map((option) => (
             <div
               key={option.key}
