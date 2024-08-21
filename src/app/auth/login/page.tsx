@@ -7,6 +7,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 // import useRedirectAuthenticated from "@/hooks/useRedirectAuthenticated";
 import { signIn } from "next-auth/react";
 import { useNotification } from "@/contexts/NotificationContext";
+import Link from "next/link";
 
 export default function LoginPage() {
   // useRedirectAuthenticated(); // TODO: Replace by server side props
@@ -93,6 +94,15 @@ export default function LoginPage() {
               >
                 <h3>Log in</h3>
               </button>
+              <h5 className="text-center mt-4">
+                Forgot your password?{" "}
+                <Link
+                  href={"/auth/forgot-password"}
+                  className="text-url cursor-pointer"
+                >
+                  Reset
+                </Link>
+              </h5>
             </div>
           </form>
         </div>

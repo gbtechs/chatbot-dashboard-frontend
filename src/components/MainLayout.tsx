@@ -21,14 +21,18 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!session && status === "unauthenticated") {
+    if (
+      !session &&
+      status === "unauthenticated" &&
+      !path.startsWith("/auth/")
+    ) {
       router.push("/auth/login");
     }
   }, [session]);
 
   return (
     <>
-      {path === "/auth/login" ? (
+      {path.startsWith("/auth/") ? (
         <div className="flex flex-row min-h-full pt-[80px]">
           <main className="main flex flex-col flex-grow bg-gray">
             {children}

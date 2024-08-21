@@ -28,7 +28,7 @@ const useApiRequest = () => {
     };
     const user = session?.user as any;
 
-    if (user.access_token) {
+    if (user?.access_token) {
       config.headers = {
         ...config.headers,
         Authorization: `Bearer ${user.access_token}`,
@@ -43,10 +43,8 @@ const useApiRequest = () => {
       const axiosError = error as AxiosError;
 
       if (axiosError.response) {
-        const isProtectedRoute =
-          location.pathname.includes("login") ||
-          location.pathname.includes("complete-registeration");
-        if (axiosError.response.status === 401 && !isProtectedRoute) {
+        const isProtectedRoute = !location.pathname.includes("auth/");
+        if (axiosError.response.status === 401 && isProtectedRoute) {
           signOut();
         }
         // setError(axiosError?.response?.data?.message || "Request failed");

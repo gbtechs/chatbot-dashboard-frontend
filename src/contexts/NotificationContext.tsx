@@ -38,15 +38,20 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const [notification, setNotification] = useState<Notification | null>(null);
 
   const notify = (message: any, type: NotificationType) => {
-    if (type === "error" && message instanceof AxiosError) {
-      const detail = message?.response?.data?.detail;
-      if (Array.isArray(detail)) {
-        message = message.message;
-      } else {
-        message = detail;
+    try {
+      if (type === "error" && message instanceof AxiosError) {
+        const detail = message?.response?.data?.detail;
+        if (Array.isArray(detail)) {
+          message = message.message;
+        } else {
+          message = detail;
+        }
       }
+      setNotification({ message, type });
+    } catch (error) {
+      console.error(error);
+      setNotification({ message: "Something went wrong", type: "error" });
     }
-    setNotification({ message, type });
   };
 
   useEffect(() => {

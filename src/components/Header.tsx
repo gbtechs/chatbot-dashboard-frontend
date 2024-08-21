@@ -3,6 +3,7 @@
 import { SessionType } from "@/types";
 import {
   ArrowRightStartOnRectangleIcon,
+  LockClosedIcon,
   QuestionMarkCircleIcon,
   UserCircleIcon,
   UserIcon,
@@ -63,6 +64,13 @@ export const Header: React.FC = () => {
               >
                 <QuestionMarkCircleIcon className="h-[20px] w-[20px] mr-2"></QuestionMarkCircleIcon>
                 <span>Support</span>
+              </div>
+              <div
+                className="flex item-center rounded-full cursor-pointer label-1 hover:bg-gray-100 py-1 px-2 m-1"
+                onClick={() => router.push("/change-password")}
+              >
+                <LockClosedIcon className="h-[20px] w-[20px] mr-2"></LockClosedIcon>
+                <span>Change Password</span>
               </div>
               <div
                 className="flex item-center rounded-full cursor-pointer label-1 hover:bg-gray-100 py-1 px-2 m-1"

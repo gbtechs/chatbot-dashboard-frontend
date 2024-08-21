@@ -10,5 +10,6 @@ export const config = {
     "/sources/:path*",
     "/settings",
     "/support",
+    "/change-password",
   ],
 };
