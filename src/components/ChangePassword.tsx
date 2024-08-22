@@ -112,7 +112,7 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
                 type={passwordVisible ? "text" : "password"}
                 name="new_password"
                 placeholder="New password"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@$%^&*()_+\-=\[\]{}|,.<>\/?]{8,}$"
                 title="Password must contain at least one uppercase letter, one lowercase letter and one number"
                 required
               />
