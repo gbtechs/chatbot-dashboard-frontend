@@ -38,6 +38,7 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
           new_password,
           retyped_password,
         });
+        router.push("/auth/login");
       } else {
         const current_password = formData.get("current_password")?.toString();
         await makeRequest("/change_password", "POST", {
@@ -45,9 +46,9 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
           new_password,
           retyped_password,
         });
+        router.push("/");
       }
 
-      router.push("/");
       notify("Password changed", "success");
     } catch (error) {
       notify(error, "error");

@@ -28,6 +28,10 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
     ) {
       router.push("/auth/login");
     }
+
+    if (session && status === "authenticated" && path.startsWith("/auth/")) {
+      router.push("/");
+    }
   }, [session]);
 
   return (
