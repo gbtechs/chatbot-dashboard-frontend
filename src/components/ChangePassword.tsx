@@ -14,6 +14,7 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
 
   const router = useRouter();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [retypedVisible, setRetypedVisible] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -96,7 +97,7 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
                 <label className="label-1">OTP</label>
                 <input
                   className="w-[400px] h-[40px] text-gray-700 rounded-full input-text px-4 py-2 mt-2"
-                  type="password"
+                  type="text"
                   name="otp"
                   placeholder="OTP"
                   required
@@ -111,6 +112,8 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
                 type={passwordVisible ? "text" : "password"}
                 name="new_password"
                 placeholder="New password"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
+                title="Password must contain at least one uppercase letter, one lowercase letter and one number"
                 required
               />
               <div
@@ -125,15 +128,25 @@ export const ChangePassword: React.FC<Props> = ({ email }) => {
               </div>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 relative">
               <label className="label-1">Confirm new password</label>
               <input
                 className="w-[400px] h-[40px] text-gray-700 rounded-full input-text px-4 py-2 mt-2"
-                type="password"
+                type={retypedVisible ? "text" : "password"}
                 name="retyped_password"
                 placeholder="Confirm new password"
                 required
               />
+              <div
+                className="absolute top-[42px] right-[5px] pr-3 flex items-center cursor-pointer text-sm leading-5"
+                onClick={() => setRetypedVisible(!retypedVisible)}
+              >
+                {retypedVisible ? (
+                  <EyeSlashIcon className="w-5 h-5"></EyeSlashIcon>
+                ) : (
+                  <EyeIcon className="w-5 h-5"></EyeIcon>
+                )}
+              </div>
             </div>
 
             <div>
