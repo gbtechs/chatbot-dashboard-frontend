@@ -23,7 +23,7 @@ export const ConversationSearch: React.FC<Props> = ({
   const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    setInput(input);
+    search && setInput(search);
     setQuery(search);
   }, []);
 

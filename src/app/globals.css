@@ -170,6 +170,10 @@ li.active h5, li.active svg {
   text-decoration: underline;
 }
 
+.text-link {
+  color: rgba(33, 158, 188, 1);
+}
+
 .iframe-container {
   background-color: #f7f9fb;
   overflow: hidden;

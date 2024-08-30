@@ -67,7 +67,12 @@ export default function LoginPage() {
               />
             </div>
             <div className="mt-4 relative">
-              <label className="label-1">Password</label>
+              <div className="flex justify-between">
+                <label className="label-1">Password</label>
+                <label className="label-1 text-link">
+                  <Link href="/auth/forgot-password">Forgot password?</Link>
+                </label>
+              </div>
               <input
                 className="w-[400px] h-[40px] text-gray-700 rounded-full input-text px-4 py-2 mt-2"
                 type={passwordVisible ? "text" : "password"}
@@ -94,15 +99,6 @@ export default function LoginPage() {
               >
                 <h3>Log in</h3>
               </button>
-              <h5 className="text-center mt-4">
-                Forgot your password?{" "}
-                <Link
-                  href={"/auth/forgot-password"}
-                  className="text-url cursor-pointer"
-                >
-                  Reset
-                </Link>
-              </h5>
             </div>
           </form>
         </div>

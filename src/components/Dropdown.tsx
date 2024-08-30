@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   options: any[];
@@ -19,6 +19,26 @@ export const Dropdown: React.FC<Props> = ({
   const [selected, setSelected] = useState<any>(
     placeholder ? "" : defaultValue || options[0]
   );
+  const dropDownRef = useRef<HTMLButtonElement>(null);
+  const optionsDivRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropDownRef.current &&
+      optionsDivRef.current &&
+      !dropDownRef.current.contains(event.target as Node) &&
+      !optionsDivRef.current.contains(event.target as Node)
+    ) {
+      setShow(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (defaultValue) {
@@ -30,6 +50,7 @@ export const Dropdown: React.FC<Props> = ({
   return (
     <div className="relative">
       <button
+        ref={dropDownRef}
         className={`w-[150px] h-[40px] flex justify-between items-center rounded-full border-1 radius-[15px] bg-white font-primary ${
           classes || "py-4 px-6"
         }`}
@@ -42,6 +63,7 @@ export const Dropdown: React.FC<Props> = ({
       </button>
       {show && (
         <div
+          ref={optionsDivRef}
           className={`w-[150px] absolute top-[45px] z-10 bg-white border-1 radius-1 font-primary-1 p-2 ${
             classes && classes.includes("w-full") ? "w-full" : ""
           }`}
